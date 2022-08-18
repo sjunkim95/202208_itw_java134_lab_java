@@ -7,15 +7,16 @@
  * 문서화 주석(documentation comment)를 만들 때 주로 사용.
  */
 
-package edu.java.intro1;  // 패키지 선언문.
+package edu.java.intro1; // 패키지 선언문.
+
 // 자바의 모든 문장은 세미콜론(;)으로 끝남.
 
 // 클래스 선언(정의)
 public class AppMain1 {
 
-	// main 메서드(method): 자바 프로그램의 시작과 끝. 
-	public static void main(String[] args) {
-		System.out.println("Hello, 자바!");
-	}  // end main
+    // main 메서드(method): 자바 프로그램의 시작과 끝.
+    public static void main(String[] args) {
+        System.out.println("Hello, 자바!");
+    } // end main
 
-}  // end class
+} // end class
