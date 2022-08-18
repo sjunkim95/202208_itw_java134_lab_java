@@ -17,10 +17,29 @@ public class VariableMain04 {
         System.out.println("number = " + number);
 
         // Java 시험 점수(정수)를 입력
+        System.out.println("Java 점수 입력>>>");
+        int java = scanner.nextInt();
+        System.out.println("Java 점수 = " + java);
+
         // SQL 시험 점수를 입력
+        System.out.println("SQL 점수 입력>>>");
+        int sql = scanner.nextInt();
+        System.out.println("SQL 점수 = " + sql);
+
         // JSP 시험 점수를 입력
-        // 세 과목의 총점(정수)을 계산하고 출력
+        System.out.println("JSP 점수 입력>>>");
+        int jsp = scanner.nextInt();
+        System.out.println("JSP 점수 = " + jsp);
+
+        // 세 과목의 총점(정수)을 계산하고 출력.
+        int total = java + sql + jsp;
+        System.out.println("총점 = " + total);
+
         // 세 과목의 평균(실수)을 계산하고 출력.
+        double average = (double) total / 3;
+        System.out.println("평균 = " + average);
+
+        // Ctrl+Shift+F: 소스 코드 포맷팅(자동 정렬)
 
     }
 
