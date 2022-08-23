@@ -14,7 +14,7 @@ public class LoopMain12 {
         System.out.println();
         // Ex 4-6.
         for (int i = 1; i <= 4; i++) {
-            int spaces = 4 - i; // i번째 줄에서 출력할 공백 갯수
+            int spaces = 4 - i; // i번째 줄에서 출력할 공백 개수
             for (int j = 1; j <= spaces; j++) { // spaces 갯수만큼 반복하면서
                 System.out.print(" "); // 공백 출력
             }
