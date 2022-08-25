@@ -5,7 +5,7 @@ import java.util.Random;
 public class ArrayMain07 {
 
     public static void main(String[] args) {
-        // Chapter 6-2 Ex. 4 (p200)
+        // Chapter 5-2 Ex.4 (p200)
         // 정수(int) 10개를 저장하는 배열(array)을 선언.
         int[] array = new int[10];
         
