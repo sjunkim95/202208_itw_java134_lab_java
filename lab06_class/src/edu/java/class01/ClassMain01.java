@@ -9,7 +9,20 @@ public class ClassMain01 {
         System.out.println(user1.userId);
         System.out.println(user1.password);
         System.out.println(user1.age);
+        
+        user1.userId = "admin";
+        user1.password = "1234";
+        user1.age = 16;
+        
+        System.out.println(user1.userId);
+        System.out.println(user1.password);
+        System.out.println(user1.age);
 
+        User user2 = new User("guest", "guest", 0);
+        System.out.println(user2.userId);
+        System.out.println(user2.password);
+        System.out.println(user2.age);
+        
     }
 
 }
