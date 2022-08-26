@@ -23,6 +23,17 @@ public class ClassMain01 {
         System.out.println(user2.password);
         System.out.println(user2.age);
         
+        user2.password= "GUEST1234";
+        user2.age = 20;
+        System.out.println(user2.userId);
+        System.out.println(user2.password);
+        System.out.println(user2.age);
+        
+        User user3 = new User("NoName");
+        System.out.println(user3.userId);
+        System.out.println(user3.password);
+        System.out.println(user3.age);
+        
     }
 
 }
