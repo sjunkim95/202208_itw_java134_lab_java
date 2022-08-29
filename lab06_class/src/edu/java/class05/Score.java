@@ -9,6 +9,12 @@ public class Score {
     // constructor - 기본 생성자, argument를 갖는 생성자.
     public Score() {}
     
+    public Score(int korean, int english, int math) {
+        this.korean = korean;
+        this.english = english;
+        this.math = math;
+    }
+    
     // 세 과목의 점수를 출력하는 메서드.
     public void printScore() {
         System.out.println("국어: " + this.korean);

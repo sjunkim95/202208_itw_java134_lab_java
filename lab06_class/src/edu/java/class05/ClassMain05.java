@@ -16,7 +16,20 @@ public class ClassMain05 {
         System.out.println("총점: " + score1.getTotal());
         System.out.println("평균: " + score1.getAverage());
 
+        System.out.println("-----");
+        Score score2 = new Score(100, 90, 81);
+        System.out.println("score2 = " + score2);
+        
+        score2.printScore();
+        System.out.println("총점: " + score2.getTotal());
+        System.out.println("평균: " + score2.getAverage());
+        
         // Student 타입의 객체 생성, 메서드를 테스트.
+        System.out.println("-----");
+        Student stu1 = new Student();
+//        stu1.score = score1;
+        System.out.println("stu1 = " + stu1);
+        stu1.printStuInfo();
         
     }
 
