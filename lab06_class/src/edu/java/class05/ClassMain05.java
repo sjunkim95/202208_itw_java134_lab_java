@@ -30,6 +30,22 @@ public class ClassMain05 {
 //        stu1.score = score1;
         System.out.println("stu1 = " + stu1);
         stu1.printStuInfo();
+     
+        System.out.println("-----");
+        Student stu2 = new Student(1, "홍길동", score2);
+        stu2.printStuInfo();
+        
+        System.out.println("-----");
+        Student stu3 = new Student(2, "허균", null);
+        stu3.printStuInfo();
+        
+        System.out.println("-----");
+        Student stu4 = new Student(3, "오쌤", new Score());
+        stu4.printStuInfo();
+        
+        System.out.println("-----");
+        Student stu5 = new Student(5, "철수", 10, 20, 30);
+        stu5.printStuInfo();
         
     }
 

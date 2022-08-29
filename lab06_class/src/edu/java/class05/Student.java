@@ -11,15 +11,26 @@ public class Student {
     public Student() {}
 
     // (2) argument: int, String, Score
+    public Student(int stuNo, String stuName, Score score) {
+        this.stuNo = stuNo;
+        this.stuName = stuName;
+        this.score = score;
+    }
     
     // (3) argument: int, String, int, int, int
+    public Student(int stuNo, String stuName, int korean, int english, int math) {
+//        this.stuNo = stuNo;
+//        this.stuName = stuName;
+//        this.score = new Score(korean, english, math);
+        this(stuNo, stuName, new Score(korean, english, math));
+    }
     
     // method - 학생 정보(학번, 이름, 국/영/수 과목 점수, 총점, 평균)를 출력
     public void printStuInfo() {
         System.out.println("--- 학생 정보 ---");
         System.out.println("학번: " + this.stuNo);
         System.out.println("이름: " + this.stuName);
-        if (score != null) {
+        if (this.score != null) {
             this.score.printScore(); // 국/영/수 점수 출력
             System.out.println("총점: " + this.score.getTotal());
             System.out.println("평균: " + this.score.getAverage());
