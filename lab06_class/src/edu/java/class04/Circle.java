@@ -1,7 +1,7 @@
 package edu.java.class04;
 
 public class Circle {
-    // field - 반지름
+    // field(멤버 변수, property) - 반지름
     double radius;
     
     // constructor - 기본 생성자, argument를 갖는 생성자
