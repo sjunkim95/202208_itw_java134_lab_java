@@ -17,6 +17,10 @@ package edu.java.modifier07;
 // - 프로그램 로딩 시점(main 메서드 시작 전)에 메모리에 생겨남.
 // - static 멤버들은 static 멤버들만 접근(사용) 가능.
 
+// final 수식어: 클래스, 멤버(필드/변수, 생성자, 메서드), 지역 변수에 사용됨.
+// final 지역 변수: 값이 한 번 저장되면 변경할 수 없는 변수.
+// final 멤버 변수: 객체가 생성될 때 값이 초기화되면 변경할 수 없는 멤버 변수.
+
 public class ModifierMain07 {
 
     public static void main(String[] args) {
@@ -39,6 +43,14 @@ public class ModifierMain07 {
         StaticTest test2 = new StaticTest();
         test2.printVariables();
         
+        System.out.println();
+        
+        final int number = 100;
+//        number = 200; // final 지역 변수의 값은 변경할 수 없음.
+        
+        FinalTest ftest = new FinalTest(100);
+        System.out.println(ftest.getNumber());
+        System.out.println(Math.E);
     }
 
 }
