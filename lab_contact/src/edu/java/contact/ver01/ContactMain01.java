@@ -2,12 +2,16 @@ package edu.java.contact.ver01;
 
 import java.util.Scanner;
 
-public class ContactMain01 {
-    private Scanner scanner;
+import edu.java.contact.menu.MainMenu;
 
-    public ContactMain01() {
-        scanner = new Scanner(System.in);
-    }
+public class ContactMain01 {
+    // 상수
+    private static final int MAX_LENGTH = 3; // 저장할 수 있는 연락처의 최대 개수(배열 길이).
+    
+    // field
+    private Scanner scanner = new Scanner(System.in); // 입력 도구
+    private Contact[] contacts = new Contact[MAX_LENGTH]; // 연락처들의 배열
+    private int count = 0; // 배열에 저장된 연락처의 개수. 새 연락처가 추가될 때마다 증가됨.
     
     public static void main(String[] args) {
         System.out.println("***** 연락처 프로그램 Version 0.1 *****");
@@ -21,19 +25,105 @@ public class ContactMain01 {
             app.showMainMenu();
             
             // 메뉴 입력
-            int menu = Integer.parseInt(app.scanner.nextLine());
+            int n = Integer.parseInt(app.scanner.nextLine());
+            MainMenu menu = MainMenu.getValue(n);
             
             // switch-case
             switch (menu) {
-            case 0: // 종료
+            case QUIT: // 종료
                 run = false;
                 break;
+            case SELECT_ALL: // 전체리스트
+                app.selectAllContacts();
+                break;
+            case SELECT_BY_INDEX: // 인덱스검색
+                app.selectContactByIndex();
+                break;
+            case CREATE: // 새연락처 추가
+                app.insertNewContact();
+                break;
+            case UPDATE: // 연락처 정보 수정
+                app.updateContact();
+                break;
             default:
+                System.out.println("지원하지 않는 메뉴입니다. 다시 선택하세요.");
             }
+            
         }
         
         System.out.println("***** 프로그램 종료 *****");
     } // end main
+    
+    private void updateContact() {
+        // TODO: NullPointerException 또는 ArrayIndexOutOfBoundsException이 발생할 수 있음.
+        
+        // 수정할 연락처 인덱스 입력
+        System.out.print("수정할 연락처 인덱스>> ");
+        int index = Integer.parseInt(scanner.nextLine());
+        
+        // 수정 전 연락처 정보 출력
+        System.out.print("수정 전>>> ");
+        contacts[index].printContact();
+        
+        // 수정할 이름/전화번호/이메일 입력
+        System.out.print("수정할 이름>> ");
+        String name = scanner.nextLine();
+        System.out.print("수정할 전화번호>> ");
+        String phone = scanner.nextLine();
+        System.out.print("수정할 이메일>> ");
+        String email = scanner.nextLine();
+        
+        // 연락처 정보 업데이트
+        contacts[index].setName(name);
+        contacts[index].setPhone(phone);
+        contacts[index].setEmail(email);
+        
+        // 수정 후 연락처 정보 출력
+        System.out.print("수정 후>>> ");
+        contacts[index].printContact();
+    }
+
+    private void selectContactByIndex() {
+        // TODO: NullPointerException 또는 ArrayIndexOutOfBoundsException 발생할 수 있음.
+        
+        // 검색할 인덱스 입력
+        System.out.print("검색할 인덱스>> ");
+        int index = Integer.parseInt(scanner.nextLine());
+        
+        // 해당 인덱스의 연락처 정보를 출력
+        contacts[index].printContact();
+    }
+
+    private void insertNewContact() {
+        // TODO: ArrayIndexOutOfBoundsException 발생할 수 있음.
+        
+        // 이름, 전화번호, 이메일 입력
+        System.out.print("이름 입력>> ");
+        String name = scanner.nextLine();
+        
+        System.out.print("전화번호 입력>> ");
+        String phone = scanner.nextLine();
+        
+        System.out.print("이메일 입력>> ");
+        String email = scanner.nextLine();
+        
+        // Contact 객체 생성
+        Contact c = new Contact(name, phone, email);
+        
+        // 배열에 추가
+        contacts[count] = c;
+        count++; // 배열에 저장된 연락처 개수를 1 증가.
+    }
+    
+    private void selectAllContacts() {
+        // 배열 contacts에 저장된 Contact 객체들을 출력.
+        System.out.println("--- 연락처 전체 리스트 ---");
+        for (int i = 0; i < count; i++) {
+            // 배열의 길이만큼 반복하는 것이 아니라, 배열에 실제로 저장된 연락처 개수만큼만 반복함.
+            contacts[i].printContact();
+        }
+        System.out.println("--------------------------");
+    }
     
     private void showMainMenu() {
         System.out.println();
