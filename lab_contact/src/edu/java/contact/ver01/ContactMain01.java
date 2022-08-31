@@ -55,11 +55,15 @@ public class ContactMain01 {
     } // end main
     
     private void updateContact() {
-        // TODO: NullPointerException 또는 ArrayIndexOutOfBoundsException이 발생할 수 있음.
-        
         // 수정할 연락처 인덱스 입력
         System.out.print("수정할 연락처 인덱스>> ");
         int index = Integer.parseInt(scanner.nextLine());
+        
+        // NullPointerException 또는 ArrayIndexOutOfBoundsException이 발생할 수 있음.
+        if (index < 0 || index >= count) {
+            System.out.println("해당 인덱스에는 수정할 연락처 정보가 없습니다.");
+            return;
+        }
         
         // 수정 전 연락처 정보 출력
         System.out.print("수정 전>>> ");
@@ -84,18 +88,26 @@ public class ContactMain01 {
     }
 
     private void selectContactByIndex() {
-        // TODO: NullPointerException 또는 ArrayIndexOutOfBoundsException 발생할 수 있음.
-        
         // 검색할 인덱스 입력
         System.out.print("검색할 인덱스>> ");
         int index = Integer.parseInt(scanner.nextLine());
+        
+        // NullPointerException 또는 ArrayIndexOutOfBoundsException 발생할 수 있음.
+        if (index < 0 || index >= count) {
+            System.out.println("해당 인덱스에는 연락처 정보가 없습니다.");
+            return; // 메서드 종료
+        }
         
         // 해당 인덱스의 연락처 정보를 출력
         contacts[index].printContact();
     }
 
     private void insertNewContact() {
-        // TODO: ArrayIndexOutOfBoundsException 발생할 수 있음.
+        // ArrayIndexOutOfBoundsException 발생할 수 있음.
+        if (count >= MAX_LENGTH) {
+            System.out.println("새 연락처를 저장할 공간이 부족합니다.");
+            return;
+        }
         
         // 이름, 전화번호, 이메일 입력
         System.out.print("이름 입력>> ");
