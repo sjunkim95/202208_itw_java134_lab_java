@@ -12,6 +12,8 @@ public class Student extends Person {
     }
     
     public Student(String school) {
+//        super();
+        // superclass의 생성자를 명시적으로 호출하지 않은 경우에는 "기본 생성자"가 자동으로 호출됨.
         this.school = school;
         System.out.println("Student(school) 생성자 호출");
     }
