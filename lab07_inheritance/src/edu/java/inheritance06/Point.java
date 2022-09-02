@@ -26,7 +26,7 @@ public class Point {
     public void setY(int y) {
         this.y = y;
     }
-    
+
     // Object 클래스의 toString()은 "패키지이름.클래스이름@참조값" 형식의 문자열을 리턴.
     @Override // Object 클래스의 toString()을 재정의
     public String toString() {
