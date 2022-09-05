@@ -1,5 +1,8 @@
 package edu.java.interface01;
 
+// import static 문장: static 필드, 메서드, 클래스 이름을 import할 때 사용.
+import static edu.java.interface01.DatabaseModule.DB_VERSION;
+
 // 인터페이스(interface):
 // 사용 목적: 팀/회사 간의 분업/협업을 하기 위해서 메서드(기능)들의 프로토타입(prototype, signature)를 약속하기 위한 규약.
 // 인터페이스가 가질 수 있는 멤버들:
@@ -13,8 +16,23 @@ package edu.java.interface01;
 public class InterfaceMain01 {
 
     public static void main(String[] args) {
-        // TODO Auto-generated method stub
+        // 인터페이스의 필드는 public static final.
+        System.out.println(DB_VERSION);
+        // DatabaseModule.DB_VERSION = 2;
 
+        // OracleDatabaseModule 타입의 객체를 생성
+        // OracleDatabaseModule db = new OracleDatabaseModule();
+        
+        // MariaDbModule 타입의 객체 생성
+        // MariaDbModule db = new MariaDbModule();
+        
+        // 다형성: SuperType variable = new SubType();
+        //DatabaseModule db = new OracleDatabaseModule();
+        DatabaseModule db = new MariaDbModule();
+        
+        db.create(100, "가나다라");
+        db.read();
+        
     }
 
 }
