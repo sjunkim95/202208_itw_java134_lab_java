@@ -31,26 +31,29 @@ public class MemberDaoImpl implements MemberDao {
     
     @Override
     public int create(Member m) {
-        // TODO Auto-generated method stub
-        return 0;
+        memberList[count] = m;
+        count++;
+        
+        return 1;
     }
 
     @Override
     public Member[] read() {
-        // TODO Auto-generated method stub
-        return null;
+        
+        return memberList;
     }
 
     @Override
     public Member read(int index) {
-        // TODO Auto-generated method stub
-        return null;
+        
+        return memberList[index];
     }
 
     @Override
     public int update(int index, String password) {
-        // TODO Auto-generated method stub
-        return 0;
+        memberList[index].setMemberPassword(password);
+        
+        return 1;
     }
 
 }
