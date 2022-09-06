@@ -5,6 +5,8 @@ import java.util.Scanner;
 import edu.java.mvc.controller.MemberDaoImpl;
 import edu.java.mvc.model.Member;
 
+import static edu.java.mvc.controller.MemberDaoImpl.MAX_LENGTH;
+
 // MVC(Model-View-Controller) 아키텍쳐를 사용한 회원 관리 프로그램
 // 1. Model: 애플리케이션의 데이터를 설계한 클래스. Member.
 //    VO(Value Object), DTO(Data Transfer Object)
@@ -93,6 +95,11 @@ public class MemberMain {
 
     private void createNewMember() {
         System.out.println("----- 회원가입 -----");
+        if (dao.getCount() == MAX_LENGTH) {
+            System.out.println("회원 정보를 저장할 메모리가 부족합니다.");
+            return; // 메서드 종료
+        }
+        
         System.out.print("아이디 입력>> ");
         String id = scanner.nextLine();
         System.out.print("비밀번호 입력>> ");
