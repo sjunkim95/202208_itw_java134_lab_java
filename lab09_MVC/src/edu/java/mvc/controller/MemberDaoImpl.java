@@ -39,18 +39,20 @@ public class MemberDaoImpl implements MemberDao {
 
     @Override
     public Member[] read() {
-        
+        // TODO: memberList를 그대로 리턴하지 말고, 
+        // 실제로 저장된 Member 개수만큼만 배열을 새로 생성해서 리턴.
         return memberList;
     }
 
     @Override
     public Member read(int index) {
-        
+        // FIXME: ArrayIndexOutOfBoundsException
         return memberList[index];
     }
 
     @Override
     public int update(int index, String password) {
+        // FIXME: NullPointerException
         memberList[index].setMemberPassword(password);
         
         return 1;
