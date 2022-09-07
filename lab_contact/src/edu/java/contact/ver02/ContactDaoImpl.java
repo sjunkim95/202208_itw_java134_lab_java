@@ -23,9 +23,10 @@ public class ContactDaoImpl implements ContactDao {
     
     @Override
     public Contact[] read() {
+        // contactList에 저장된 Contact 객체의 개수만큼 크기의 배열을 새로 생성.
         Contact[] contacts = new Contact[count];
         for (int i = 0; i < count; i++) {
-            contacts[i] = contactList[i];
+            contacts[i] = contactList[i]; // null이 아닌 값들만 복사.
         }
         
         return contacts;
@@ -43,6 +44,7 @@ public class ContactDaoImpl implements ContactDao {
     @Override
     public int create(Contact c) {
         if (count == MAX_LENGTH) {
+            // 배열에 저장된 개수와 배열의 최대 크기가 같으면
             return 0;
         }
         
@@ -54,7 +56,7 @@ public class ContactDaoImpl implements ContactDao {
     
     @Override
     public int update(int index, Contact c) {
-        if (index < 0 || index > count) {
+        if (index < 0 || index > count) { // 유효하지 않은 인덱스이면
             return 0;
         }
         

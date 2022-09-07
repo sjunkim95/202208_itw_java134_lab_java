@@ -34,5 +34,6 @@ public interface ContactDao {
      * @return 업데이트 성공하면 1, 그렇지 않으면 0.
      */
     int update(int index, Contact c);
+    // int update(int index, String newName, String newPhone, String newEmail);
 
 }

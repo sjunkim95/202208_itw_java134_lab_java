@@ -8,7 +8,7 @@ import edu.java.contact.menu.MainMenu;
 public class ContactMain02 {
     
     private Scanner scanner = new Scanner(System.in);
-    ContactDaoImpl dao = ContactDaoImpl.getInstance();
+    private ContactDaoImpl dao = ContactDaoImpl.getInstance(); // 컨트롤러(연락처 저장, 검색, 수정) 클래스.
 
     public static void main(String[] args) {
         System.out.println("***** 연락처 프로그램 Version 0.2 *****");
@@ -71,7 +71,7 @@ public class ContactMain02 {
         System.out.print("수정할 이메일 입력>> ");
         String email = scanner.nextLine();
         
-        Contact after = new Contact(name, phone, email);
+        Contact after = new Contact(name, phone, email); // 업데이트할 정보를 가지고 있는 연락처 객체.
         
         int result = dao.update(index, after); // controller 메서드 사용해서 연락처 업데이트.
         if (result == 1) {
@@ -115,7 +115,7 @@ public class ContactMain02 {
         if (!dao.isValidIndex(index)) {
             // 인덱스가 유효하지 않으면. (0보다 작거나 또는 저장된 연락처 개수보다 많다면)
             System.out.println("해당 인덱스에는 연락처 정보가 없습니다.");
-            return;
+            return; // 메서드 종료
         }
         
         Contact c = dao.read(index); // controller 메서드 사용.
@@ -123,7 +123,7 @@ public class ContactMain02 {
     }
 
     private void selectAllContacts() {
-        Contact[] contacts = dao.read();
+        Contact[] contacts = dao.read(); // controller의 메서드를 호출.
         
         System.out.println("--- 연락처 리스트 ---");
         for (Contact c : contacts) {
