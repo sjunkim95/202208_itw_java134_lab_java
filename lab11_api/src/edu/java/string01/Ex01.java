@@ -22,6 +22,11 @@ public class Ex01 {
         String[] tests = {"TEST", "test", "TeSt", "tEsT", "테스트"};
         // TODO
 
+        // ex-5. 아래의 "YYYY-MM-DD" 형식의 날짜 문자열에서 년/월/일 정보를 
+        // int 타입 변수에 저장하고 출력.
+        String date = "2022-09-07";
+        // TODO
+        
     }
 
 }
