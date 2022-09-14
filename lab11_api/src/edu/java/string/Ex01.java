@@ -1,4 +1,4 @@
-package edu.java.string01;
+package edu.java.string;
 
 public class Ex01 {
 

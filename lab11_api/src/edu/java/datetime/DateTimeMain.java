@@ -1,5 +1,6 @@
 package edu.java.datetime;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -24,7 +25,16 @@ public class DateTimeMain {
         LocalDateTime now = LocalDateTime.now();
         System.out.println(now);
         
+        // Timestamp: 1970-01-01 00:00:00를 기준으로 1/1000 초(1 milli-second)마다 
+        // 1씩 증가하는 정수(long 타입)를 기반으로 날짜/시간 정보를 저장하는 클래스.
+        // (1) LocalDateTime --> Timestamp 변환
+        Timestamp ts = Timestamp.valueOf(now);
+        System.out.println(ts);
+        System.out.println(ts.getTime());
         
+        // (2) Timestamp --> LocalDateTime 변환
+        LocalDateTime dt  = ts.toLocalDateTime();
+        System.out.println(dt);
     }
 
 }
