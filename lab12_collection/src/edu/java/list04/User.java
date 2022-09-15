@@ -33,4 +33,19 @@ public class User {
     public String toString() {
         return String.format("User(userId=%s, password=%s)", userId, password);
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof User) {
+            User user = (User) obj;
+            return this.userId.equals(user.userId);
+        }
+        
+        return false;
+    }
+    
+    @Override
+    public int hashCode() {
+        return userId.hashCode();
+    }
 }
