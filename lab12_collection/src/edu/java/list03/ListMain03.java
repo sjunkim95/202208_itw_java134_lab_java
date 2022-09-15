@@ -2,6 +2,7 @@ package edu.java.list03;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 public class ListMain03 {
@@ -20,6 +21,17 @@ public class ListMain03 {
             }
         }
         System.out.println(longWords);
+        
+        // Iterator<E> 사용:
+        List<String> longWords2 = new ArrayList<>();
+        Iterator<String> itr = languages.iterator();
+        while (itr.hasNext()) {
+            String s = itr.next();
+            if (s.length() >= 5) {
+                longWords2.add(s);
+            }
+        }
+        System.out.println(longWords2);
         
         // 리스트 languages의 원소들의 글자수를 저장하는 리스트를 만들고 출력.
         List<Integer> wordLengths = new ArrayList<>();
