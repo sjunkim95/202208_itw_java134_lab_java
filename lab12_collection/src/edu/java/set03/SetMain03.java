@@ -7,10 +7,11 @@ public class SetMain03 {
 
     public static void main(String[] args) {
         // HashSet<E> 사용.
-        // [0, 10) 범위의 정수 난수 5개를 저장.
+        // [0, 10) 범위의 서로 다른 정수 난수 5개를 저장.
         // Set의 내용을 출력.
-        HashSet<Integer> numbers = new HashSet<>();
+
         Random random = new Random();
+        HashSet<Integer> numbers = new HashSet<>();
         
         while (true) {
             int r = random.nextInt(10); // 난수 만듦.
