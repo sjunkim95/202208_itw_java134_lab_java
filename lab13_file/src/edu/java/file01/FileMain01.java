@@ -45,7 +45,7 @@ public class FileMain01 {
             
             while (true) {
                 int read = in.read(); // 읽기 - 파일에서 1 바이트씩 읽고, 읽은 내용은 리턴.
-//                System.out.println((char) read);
+//                System.out.println(read + ":" + (char) read);
                 // read() 메서드는 파일 끝(EOF:enf of file)에 도달했을 때 -1을 리턴
                 if (read == -1) {
                     break; // 무한 루프 종료
