@@ -24,22 +24,22 @@ public class FileMain04 {
         BufferedOutputStream bout = null; // 메모리 파일에 데이터를 쓰기 위한 통로
         
         try {
-            in = new FileInputStream("data/ratings.dat");
-            bin = new BufferedInputStream(in);
+            in = new FileInputStream("data/ratings.dat"); // 파일을 argument로 FIS 객체를 생성.
+            bin = new BufferedInputStream(in); // FIS 객체를 argument로 BIS 객체를 생성.
             
-            out = new FileOutputStream("data/ratings_copy.dat");
-            bout = new BufferedOutputStream(out);
+            out = new FileOutputStream("data/ratings_copy.dat"); // 파일을 argument로 FOS 객체를 생성.
+            bout = new BufferedOutputStream(out); // FOS 객체를 argument로 BOS 객체를 생성.
             
             long startTime = System.currentTimeMillis();
             while (true) {
                 byte[] buffer = new byte[4 * 1024];
-                int result = bin.read(buffer);
+                int result = bin.read(buffer); // BIS 객체의 read 메서드 호출 - 메모리에서 데이터를 읽음.
                 
                 if (result == -1) {
                     break;
                 }
                 
-                bout.write(buffer, 0, result);
+                bout.write(buffer, 0, result); // BOS 객체의 write 메서드 호출 - 메모리에 데이터를 씀.
             }
             long endTime = System.currentTimeMillis();
             long elapsedTime = endTime - startTime;
@@ -49,9 +49,11 @@ public class FileMain04 {
             e.printStackTrace();
         } finally {
             try {
-                bin.close();
+                // 가장 마지막에 생성된 InputStream과 OutputStream만 close를 하면
+                // 다른 Stream 객체들은 자동으로 close가 된.
+                bin.close(); // BIS을 close를 하면, BIS이 사용하는 FIS은 자동으로 close.
                 // in.close();
-                bout.close();
+                bout.close(); // BOS을 close를 하면, BOS이 사용하는 FOS도 자동으로 close.
             } catch (Exception e) {
                 e.printStackTrace();
             }
