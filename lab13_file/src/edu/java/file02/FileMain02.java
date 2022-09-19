@@ -1,9 +1,7 @@
 package edu.java.file02;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 
 public class FileMain02 {
 
@@ -32,8 +30,8 @@ public class FileMain02 {
                 //-> write(byte[] b, int off, int len):
                 // byte 배열 b에서 인덱스 off부터 len개 까지를 파일에 write.
             }
-            long endTime = System.currentTimeMillis();
-            long elapsedTime = endTime - startTime;
+            long endTime = System.currentTimeMillis(); // 복사 종료 시간.
+            long elapsedTime = endTime - startTime; // 복사 경과 시간.
             System.out.println("파일 복사 종료 - " + elapsedTime + "ms");
             
         } catch (Exception e) {
