@@ -50,7 +50,7 @@ public class FileMain04 {
         } finally {
             try {
                 // 가장 마지막에 생성된 InputStream과 OutputStream만 close를 하면
-                // 다른 Stream 객체들은 자동으로 close가 된.
+                // 다른 Stream 객체들은 자동으로 close가 됨.
                 bin.close(); // BIS을 close를 하면, BIS이 사용하는 FIS은 자동으로 close.
                 // in.close();
                 bout.close(); // BOS을 close를 하면, BOS이 사용하는 FOS도 자동으로 close.
