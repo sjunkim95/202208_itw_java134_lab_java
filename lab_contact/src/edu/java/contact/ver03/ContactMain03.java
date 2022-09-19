@@ -135,8 +135,11 @@ public class ContactMain03 {
         List<Contact> contacts = dao.read(); // controller의 메서드를 호출.
         
         System.out.println("--- 연락처 리스트 ---");
-        for (Contact c : contacts) {
-            System.out.println(c);
+//        for (Contact c : contacts) {
+//            System.out.println(c);
+//        }
+        for (int i = 0; i < contacts.size(); i++) {
+            System.out.println("[" + i + "] " + contacts.get(i));
         }
         System.out.println("---------------------");
         
