@@ -36,7 +36,7 @@ import java.io.FileOutputStream;
 public class FileMain05 {
 
     public static void main(String[] args) {
-        // try-with-resource 문장 이용 -  data/test.txt 파일을 test_copy3.txt로 복사
+        // try-with-resource 문장 이용 - data/test.txt 파일을 test_copy3.txt로 복사
         try (
                 FileInputStream in = new FileInputStream("data/test.txt");
                 FileOutputStream out = new FileOutputStream("data/test_copy3.txt");
