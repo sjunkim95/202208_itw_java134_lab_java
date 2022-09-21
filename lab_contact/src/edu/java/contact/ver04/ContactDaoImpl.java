@@ -16,9 +16,9 @@ public class ContactDaoImpl implements ContactDao {
     private static ContactDaoImpl instance = null;
     
     private ContactDaoImpl() {
-        dataDir = initDataDir();
-        dataFile = new File(DATA_DIR, DATA_FILE);
-        contacts = initData();
+        dataDir = initDataDir(); // 데이터 폴더 초기화
+        dataFile = new File(DATA_DIR, DATA_FILE); // 데이터 파일 객체
+        contacts = initData(); // 데이터 초기화
     }
     
     public static ContactDaoImpl getInstance() {
@@ -31,32 +31,59 @@ public class ContactDaoImpl implements ContactDao {
     
     @Override
     public List<Contact> read() {
-        // TODO Auto-generated method stub
-        return null;
+        return contacts;
     }
 
     @Override
     public Contact read(int index) {
-        // TODO Auto-generated method stub
-        return null;
+        if (isValidIndex(index)) {
+            return contacts.get(index);
+        } else {
+            return null;
+        }
     }
 
     @Override
     public int create(Contact contact) {
-        // TODO Auto-generated method stub
-        return 0;
+        contacts.add(contact); // 리스트에 새로운 연락처 정보 추가.
+        
+        // 새로운 데이터가 추가된 후, 파일과 동기화하기 위해서 파일에 데이터를 저장.
+        writeDataToFile(contacts, dataFile);
+        
+        return 1;
     }
 
     @Override
     public int update(int index, Contact contact) {
-        // TODO Auto-generated method stub
-        return 0;
+        if (!isValidIndex(index)) {
+            return 0;
+        }
+        
+        contacts.set(index, contact); // 해당 인덱스의 연락처 정보를 변경.
+//        contacts.get(index).setName(contact.getName());
+//        contacts.get(index).setPhone(contact.getPhone());
+//        contacts.get(index).setEmail(contact.getEmail());
+        
+        // 업데이트된 연락처 정보를 파일에 씀.
+        writeDataToFile(contacts, dataFile);
+        
+        return 1;
     }
 
     @Override
     public int delete(int index) {
-        // TODO Auto-generated method stub
-        return 0;
+        if (!isValidIndex(index)) {
+            return 0;
+        }
+        
+        contacts.remove(index); // 리스트에서 해당 인덱스의 원소를 삭제.
+        writeDataToFile(contacts, dataFile); // 변경된 데이터를 파일에 씀.
+        
+        return 1;
     }
 
+    public boolean isValidIndex(int index) {
+        return (index >= 0) && (index < contacts.size());
+    }
+    
 }
