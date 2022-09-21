@@ -1,6 +1,13 @@
 package edu.java.contact.fileutil;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.java.contact.ver04.Contact;
@@ -42,8 +49,67 @@ public class FileUtil {
      * @return Contact 타입을 저장하는 ArrayList.
      */
     public static List<Contact> initData() {
-        // TODO
-        return null;
+        List<Contact> list = null; // 리턴할 리스트
+        
+        File file = new File(DATA_DIR, DATA_FILE); // 데이터 파일 객체
+        if (file.exists()) { // 데이터 파일이 있으면
+            list = readDataFromFile(file);
+        } else { // 데이터 파일이 없으면
+            list = new ArrayList<>(); // 빈 리스트 생성
+        }
+        
+        return list;
+    }
+
+    /**
+     * argument로 전달된 File 객체를 사용해서, 파일에 저장된 연락처 정보를 읽고
+     * 그 결과를 List 객체로 리턴.
+     * 
+     * @param file 연락처 정보가 저장된 파일 경로가 설정된 File 타입 객체.
+     * @return Contact를 저장하는 ArrayList.
+     */
+    public static List<Contact> readDataFromFile(File file) {
+        List<Contact> list = null;
+        
+        FileInputStream in = null;
+        BufferedInputStream bin = null;
+        ObjectInputStream oin = null;
+        try {
+            in = new FileInputStream(file);
+            bin = new BufferedInputStream(in);
+            oin = new ObjectInputStream(bin);
+            list = (List<Contact>) oin.readObject();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                oin.close();
+                // OIS close -> BIS close -> FIS close
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        
+        return list;
     }
     
+    /**
+     * argument로 전달된 데이터를 파일에 write.
+     * 
+     * @param data 파일에 쓸 데이터. Contact 타입을 저장하는 리스트.
+     * @param file 파일 정보를 가지고 있는 File 타입 객체.
+     */
+    public static void writeDataToFile(List<Contact> data, File file) {
+        try (
+                FileOutputStream out = new FileOutputStream(file);
+                BufferedOutputStream bout = new BufferedOutputStream(out);
+                ObjectOutputStream oout = new ObjectOutputStream(bout);
+        ) {
+            oout.writeObject(data);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+    }
 }
