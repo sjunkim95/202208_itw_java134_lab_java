@@ -61,12 +61,19 @@ public class LambdaMain01 {
         Printable printer2 = msg -> System.out.println(msg.toUpperCase());
         printer2.print("Hello, Lambda!");
         
-        // 메서드 참조(method reference):
-        // (1) 람다 표현식에서 파라미터 1개이고, 메서드 body의 실행 문장도 1개 뿐인데,
+        // 메서드 참조(method reference) 1:
+        // 람다 표현식에서 파라미터 1개이고, 메서드 body의 실행 문장도 1개 뿐인데,
         // 람다 표현식의 파라미터가 실행 문장의 argument로 그대로 전달되는 경우.
 //        Printable printer3 = msg -> System.out.println(msg);
         Printable printer3 = System.out::println;
         printer3.print("Hello, Lambda!");
+        
+        // 메서드 참조 2:
+        // 람다 표현식에서 파라미터가 1개이고, 메서드 body의 실행문장도 1개인 경우
+        // 그 실행 문장이 파라미터의 메서드를 호출하는 경우.
+//        Mapper mapper = s -> s.length();
+        Mapper mapper = String::length;
+        System.out.println(mapper.map("olleh"));
         
     } // end main()
 
