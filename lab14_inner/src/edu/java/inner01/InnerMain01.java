@@ -1,5 +1,7 @@
 package edu.java.inner01;
 
+import edu.java.inner01.Enclosing.Nested;
+
 /*
  * 변수 선언 위치:
  * 1. 필드: 클래스의 멤버로 선언하는 변수.
@@ -39,6 +41,27 @@ public class InnerMain01 {
         InnerMain01 app = new InnerMain01(); // 객체 생성
         System.out.println("x = " + app.x);
 
+        // Outer 타입의 변수 선언, 객체 생성
+        Outer outer1 = new Outer(1, 2);
+        System.out.println(outer1);
+        
+        // Outer.Inner 타입의 변수 선언, 객체 생성.
+        Outer.Inner inner1 = outer1.new Inner(3);
+        inner1.printInfo();
+        
+        Outer outer2 = new Outer(100, 200);
+        Outer.Inner inner2 = outer2.new Inner(3);
+        inner2.printInfo();
+        
+        Outer.Inner inner3 = outer1.new Inner(100);
+        inner3.printInfo();
+        
+        // static 내부 클래스 타입의 변수 선언, 객체 생성
+        Enclosing.Nested nested = new Enclosing.Nested(100);
+        nested.test();
+        
+        Nested nested2 = new Nested(123);
+        nested2.test();
     }
 
 }
