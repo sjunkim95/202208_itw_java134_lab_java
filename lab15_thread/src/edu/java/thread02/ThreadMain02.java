@@ -33,12 +33,12 @@ public class ThreadMain02 {
             public void run() {
                 for (int i = 0; i < 100; i++) {
                     System.out.println(i + " - " + name);
-                }
-                
-                try {
-                    Thread.sleep(10);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
             
