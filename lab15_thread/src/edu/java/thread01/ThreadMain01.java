@@ -42,7 +42,22 @@ public class ThreadMain01 {
         // (3) Thread 객체 생성
         MyThread th1 = new MyThread("쓰레드");
         MyThread th2 = new MyThread("홍길동");
-        MyThread th3 = new MyThread("QWERTY");
+        
+        // 익명 클래스를 사용한 Thread 객체 생성
+        Thread th3 = new Thread() {
+            @Override
+            public void run() {
+                for (int i = 0; i < 100; i++) {
+                    System.out.println(i + " - THREAD");
+                    
+                    try {
+                        sleep(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
         
         // 쓰레드 시작 시간
         long start = System.currentTimeMillis();
