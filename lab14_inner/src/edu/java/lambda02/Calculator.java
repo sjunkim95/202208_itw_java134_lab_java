@@ -3,7 +3,7 @@ package edu.java.lambda02;
 public class Calculator {
     
     @FunctionalInterface
-    interface Calculable {
+    public interface Calculable {
         double calculate(double x, double y);
     }
     
