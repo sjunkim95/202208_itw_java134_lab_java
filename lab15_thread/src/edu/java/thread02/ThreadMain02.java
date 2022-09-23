@@ -50,14 +50,45 @@ public class ThreadMain02 {
         // (4) Thread 타입 객체 생성
         Thread th1 = new Thread(process1);
         Thread th2 = new Thread(new MyRunnable("홍길동"));
+
+        // Runnable을 구현하는 익명 클래스를 이용한 Thread 객체 생성
+        Thread th3 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < 100; i++) {
+                    System.out.println(i + " - Runnable anonymous inner");
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
         
+        // Lambda를 사용한 쓰레드 객체 생성(void run() {})
+        Thread th4 = new Thread(() -> {
+            for (int i = 0; i < 100; i++) {
+                System.out.println(i + " - Lambda");
+                try {
+                    Thread.sleep(5);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+         
         // (5) 쓰레드 실행
         th1.start();
         th2.start();
+        th3.start();
+        th4.start();
         
         try {
             th1.join();
             th2.join();
+            th3.join();
+            th4.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
