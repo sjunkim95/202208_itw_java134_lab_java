@@ -62,6 +62,7 @@ public class LambdaMain02 {
             }
         });
         System.out.println("greater result = " + result);
+
     }
 
 }
