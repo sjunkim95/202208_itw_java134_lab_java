@@ -13,6 +13,8 @@ public class AppMain06 {
 
     private JFrame frame;
     private JButton btnConfirmDlg;
+    private JButton btnOptionDlg;
+    private JButton btnInputDlg;
 
     /**
      * Launch the application.
@@ -84,5 +86,51 @@ public class AppMain06 {
         btnConfirmDlg.setFont(new Font("D2Coding", Font.PLAIN, 28));
         btnConfirmDlg.setBounds(12, 84, 410, 64);
         frame.getContentPane().add(btnConfirmDlg);
+        
+        btnOptionDlg = new JButton("Option Dialog");
+        btnOptionDlg.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String[] options = {"아니요", "어려워요", "재밌어요"};
+                int result = JOptionPane.showOptionDialog(
+                        frame, // 다이얼로그의 부모 컴포넌트
+                        "Swing GUI 재미있나요?", // 다이얼로그의 메시지
+                        "확인", // 다이얼로그의 타이틀
+                        JOptionPane.YES_NO_CANCEL_OPTION, // 다이얼로그의 옵션 타입(Yes-No, Yes-No-Cancel, ...)
+                        JOptionPane.QUESTION_MESSAGE, // 메시지 타입(QUESTION, INFORMATION, ...)
+                        null, // 아이콘
+                        options, // 옵션 버튼에서 사용할 문자열 배열
+                        options[2] // 다이얼로그가 실행될 때 포커스를 받는 버튼 옵션
+                );
+                btnOptionDlg.setText("result=" + result);
+            }
+        });
+        btnOptionDlg.setFont(new Font("D2Coding", Font.PLAIN, 28));
+        btnOptionDlg.setBounds(12, 158, 410, 64);
+        frame.getContentPane().add(btnOptionDlg);
+        
+        btnInputDlg = new JButton("Input Dialog");
+        btnInputDlg.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+//                String input = JOptionPane.showInputDialog("이름?");
+//                String input = JOptionPane.showInputDialog(frame, "이름");
+                Object[] selectionValues = {"10대", "20대", "30대", "40대"};
+                Object input = JOptionPane.showInputDialog(
+                        frame, // 부모 컴포넌트
+                        "나이?", // 메시지
+                        "확인", // 타이틀
+                        JOptionPane.QUESTION_MESSAGE, // 메시지 타입
+                        null, // 아이콘
+                        selectionValues, // 선택 값들의 배열
+                        selectionValues[1] // 선택 값들 중에서 포커스를 받는 컴포넌트
+                );
+                //-> OK 버튼을 클릭하면 입력한 내용이 리턴, Cancel을 클릭하면 빈 문자열을 리턴.
+                btnInputDlg.setText("입력=" + input);
+            }
+        });
+        btnInputDlg.setFont(new Font("D2Coding", Font.PLAIN, 28));
+        btnInputDlg.setBounds(12, 232, 410, 64);
+        frame.getContentPane().add(btnInputDlg);
     }
 }
