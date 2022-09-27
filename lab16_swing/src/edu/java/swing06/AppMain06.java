@@ -15,6 +15,8 @@ public class AppMain06 {
     private JButton btnConfirmDlg;
     private JButton btnOptionDlg;
     private JButton btnInputDlg;
+    private JButton btnCustomDlg;
+    private JButton btnCustomFrame;
 
     /**
      * Launch the application.
@@ -44,8 +46,8 @@ public class AppMain06 {
      */
     private void initialize() {
         frame = new JFrame();
-        frame.setBounds(100, 100, 450, 480);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setBounds(100, 100, 450, 512);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // [닫기] 버튼 클릭 동작 -> 프로그램 종료
         frame.getContentPane().setLayout(null);
         
         JButton btnMsgDlg = new JButton("Message Dialog");
@@ -125,12 +127,34 @@ public class AppMain06 {
                         selectionValues, // 선택 값들의 배열
                         selectionValues[1] // 선택 값들 중에서 포커스를 받는 컴포넌트
                 );
-                //-> OK 버튼을 클릭하면 입력한 내용이 리턴, Cancel을 클릭하면 빈 문자열을 리턴.
+                //-> OK 버튼을 클릭하면 입력한 내용을 리턴, Cancel을 클릭하면 빈 문자열을 리턴.
                 btnInputDlg.setText("입력=" + input);
             }
         });
         btnInputDlg.setFont(new Font("D2Coding", Font.PLAIN, 28));
         btnInputDlg.setBounds(12, 232, 410, 64);
         frame.getContentPane().add(btnInputDlg);
+        
+        btnCustomDlg = new JButton("Custom Dialog");
+        btnCustomDlg.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MyCustomDialog.showMyCustomDialog();
+            }
+        });
+        btnCustomDlg.setFont(new Font("D2Coding", Font.PLAIN, 28));
+        btnCustomDlg.setBounds(12, 306, 410, 64);
+        frame.getContentPane().add(btnCustomDlg);
+        
+        btnCustomFrame = new JButton("Custom Frame");
+        btnCustomFrame.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MyCustomFrame.showMyCustomFrame();
+            }
+        });
+        btnCustomFrame.setFont(new Font("D2Coding", Font.PLAIN, 28));
+        btnCustomFrame.setBounds(12, 380, 410, 64);
+        frame.getContentPane().add(btnCustomFrame);
     }
 }
