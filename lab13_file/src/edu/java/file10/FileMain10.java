@@ -54,7 +54,7 @@ public class FileMain10 {
         File dataDir = new File("data"); // 상대 경로
         File[] files = dataDir.listFiles();
         for (File f : files) {
-            String fileName = f.getName();
+            String fileName = f.getName(); // f.getPath()
             String info = null;
             if (f.isFile()) { // 파일인 경우
                 info = fileName + "\t" + f.length() + " bytes";
