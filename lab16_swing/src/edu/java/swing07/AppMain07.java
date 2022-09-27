@@ -13,11 +13,22 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class AppMain07 {
 
     private JFrame frame;
     private final ButtonGroup buttonGroup = new ButtonGroup();
+    private JRadioButton rbPrivate;
+    private JRadioButton rbPackage;
+    private JRadioButton rbProtected;
+    private JRadioButton rbPublic;
+    private JCheckBox cbAbstract;
+    private JCheckBox cbFinal;
+    private JCheckBox cbStatic;
+    private JComboBox<String> comboBox;
+    private JTextArea textArea;
 
     /**
      * Launch the application.
@@ -51,46 +62,95 @@ public class AppMain07 {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
         
-        JRadioButton rbPrivate = new JRadioButton("private");
+        rbPrivate = new JRadioButton("private");
+        rbPrivate.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                printRadioButtonStatus(e);
+            }
+        });
         buttonGroup.add(rbPrivate);
         rbPrivate.setFont(new Font("D2Coding", Font.PLAIN, 28));
         rbPrivate.setBounds(8, 6, 140, 62);
         frame.getContentPane().add(rbPrivate);
         
-        JRadioButton rbPackage = new JRadioButton("package");
+        rbPackage = new JRadioButton("package");
+        rbPackage.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                printRadioButtonStatus(e);
+            }
+        });
         buttonGroup.add(rbPackage);
         rbPackage.setFont(new Font("D2Coding", Font.PLAIN, 28));
         rbPackage.setBounds(152, 6, 140, 62);
         frame.getContentPane().add(rbPackage);
         
-        JRadioButton rbProtected = new JRadioButton("protected");
+        rbProtected = new JRadioButton("protected");
+        rbProtected.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                printRadioButtonStatus(e);
+            }
+        });
         buttonGroup.add(rbProtected);
         rbProtected.setFont(new Font("D2Coding", Font.PLAIN, 28));
         rbProtected.setBounds(296, 6, 163, 62);
         frame.getContentPane().add(rbProtected);
         
-        JRadioButton rbPublic = new JRadioButton("public");
+        rbPublic = new JRadioButton("public");
+        rbPublic.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                printRadioButtonStatus(e);
+            }
+        });
         buttonGroup.add(rbPublic);
         rbPublic.setFont(new Font("D2Coding", Font.PLAIN, 28));
         rbPublic.setBounds(463, 6, 140, 62);
         frame.getContentPane().add(rbPublic);
         
-        JCheckBox cbAbstract = new JCheckBox("abstract");
+        cbAbstract = new JCheckBox("abstract");
+        cbAbstract.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                printCheckboxStatus(e);
+            }
+        });
         cbAbstract.setFont(new Font("D2Coding", Font.PLAIN, 28));
         cbAbstract.setBounds(8, 70, 140, 62);
         frame.getContentPane().add(cbAbstract);
         
-        JCheckBox cbFinal = new JCheckBox("final");
+        cbFinal = new JCheckBox("final");
+        cbFinal.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                printCheckboxStatus(e);
+            }
+        });
         cbFinal.setFont(new Font("D2Coding", Font.PLAIN, 28));
         cbFinal.setBounds(162, 70, 140, 62);
         frame.getContentPane().add(cbFinal);
         
-        JCheckBox cbStatic = new JCheckBox("static");
+        cbStatic = new JCheckBox("static");
+        cbStatic.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                printCheckboxStatus(e);
+            }
+        });
         cbStatic.setFont(new Font("D2Coding", Font.PLAIN, 28));
         cbStatic.setBounds(306, 70, 140, 62);
         frame.getContentPane().add(cbStatic);
         
-        JComboBox<String> comboBox = new JComboBox<>();
+        comboBox = new JComboBox<>();
+        comboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String selected = (String) comboBox.getSelectedItem();
+                textArea.setText(selected + " 선택");
+            }
+        });
         comboBox.setFont(new Font("D2Coding", Font.PLAIN, 28));
         
         final String[] items = {"naver.com", "kakao.com", "gmail.com", "msn.com"};
@@ -101,6 +161,12 @@ public class AppMain07 {
         frame.getContentPane().add(comboBox);
         
         JButton btnShowInfo = new JButton("확인");
+        btnShowInfo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                printInfo();
+            }
+        });
         btnShowInfo.setFont(new Font("D2Coding", Font.PLAIN, 28));
         btnShowInfo.setBounds(8, 210, 284, 62);
         frame.getContentPane().add(btnShowInfo);
@@ -109,8 +175,26 @@ public class AppMain07 {
         scrollPane.setBounds(18, 282, 570, 229);
         frame.getContentPane().add(scrollPane);
         
-        JTextArea textArea = new JTextArea();
+        textArea = new JTextArea();
         textArea.setFont(new Font("D2Coding", Font.PLAIN, 28));
         scrollPane.setViewportView(textArea);
+    }
+
+    private void printInfo() {
+        // TODO RadioButton, CheckBox, ComboBox의 상태를 TextArea에 출력.
+    }
+
+    private void printCheckboxStatus(ActionEvent e) {
+        JCheckBox checkBox = (JCheckBox) e.getSource(); // 이벤트가 발생한 체크박스
+        String text = checkBox.getText(); // 체크박스의 텍스트
+        boolean selected = checkBox.isSelected(); // 체크박스 선택/해제 여부
+        textArea.setText(text + " : " + selected);
+    }
+
+    private void printRadioButtonStatus(ActionEvent e) {
+        JRadioButton radioBtn = (JRadioButton) e.getSource(); // 이벤트가 발생한 라디오 버튼
+        String btnText = radioBtn.getText(); // 라디오 버튼의 텍스트
+        boolean selected = radioBtn.isSelected(); // 라디오 버튼의 선택/해제 여부
+        textArea.setText(btnText + " : " + selected);
     }
 }
