@@ -181,7 +181,40 @@ public class AppMain07 {
     }
 
     private void printInfo() {
-        // TODO RadioButton, CheckBox, ComboBox의 상태를 TextArea에 출력.
+        // RadioButton, CheckBox, ComboBox의 상태를 TextArea에 출력.
+        
+        StringBuilder buffer = new StringBuilder(); // TextArea에 출력할 문자열을 만들기 위한 객체
+        
+        // 라디오버튼들 중에서 어떤 버튼이 선택됐는 지 
+        if (rbPrivate.isSelected()) {
+            buffer.append(rbPrivate.getText());
+        } else if (rbPackage.isSelected()) {
+            buffer.append(rbPackage.getText());
+        } else if (rbProtected.isSelected()) {
+            buffer.append(rbProtected.getText());
+        } else if (rbPublic.isSelected()) {
+            buffer.append(rbPublic.getText());
+        }
+        buffer.append(" 라디오 버튼 선택\n");
+        
+        // 체크박스들 중에서 어떤 체크박스들이 선택됐는 지
+        if (cbAbstract.isSelected()) {
+            buffer.append(cbAbstract.getText()).append(" ");
+        }
+        if (cbFinal.isSelected()) {
+            buffer.append(cbFinal.getText()).append(" ");
+        }
+        if (cbStatic.isSelected()) {
+            buffer.append(cbStatic.getText()).append(" ");
+        }
+        buffer.append("체크박스 선택\n");
+        
+        // ComboBox의 아이템들 중에서 어떤 아이템이 선택됐는 지
+        String item = (String) comboBox.getSelectedItem();
+        buffer.append(item).append(" 콤보박스 아이템 선택\n");
+        
+        // 버퍼의 내용을 TextArea에 출력
+        textArea.setText(buffer.toString());
     }
 
     private void printCheckboxStatus(ActionEvent e) {
