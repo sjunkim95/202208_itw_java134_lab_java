@@ -20,8 +20,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 import edu.java.contact.ver05.ContactCreateFrame.ContactInsertListener;
+import edu.java.contact.ver05.ContactUpdateFrame.ContactUpdateListener;
 
-public class ContactMain05 implements ContactInsertListener {
+public class ContactMain05 
+    implements ContactInsertListener, ContactUpdateListener {
     private static final String[] COLUMN_NAMES = {"이름", "전화번호"};
 
     private JFrame frame;
@@ -130,11 +132,10 @@ public class ContactMain05 implements ContactInsertListener {
         
         // 업데이트 창에서는 수정 전의 정보를 화면에 출력하기 위해서, 
         // 행 번호(=연락처 리스트의 인덱스)를 argument로 전달하면서 ContactUpdateFrame을 생성.
-        ContactUpdateFrame.newContactUpdateFrame(frame, row);
+        ContactUpdateFrame.newContactUpdateFrame(frame, row, ContactMain05.this);
     }
 
-    // ContactCreateFrame.ContactInsertListener 인터페이스의 메서드를 구현.
-    @Override
+    @Override // ContactCreateFrame.ContactInsertListener 인터페이스의 메서드를 구현.
     public void contactInsertNotify(Contact c) {
         // ContactDaoImple의 메서드를 사용해서 새 연락처 정보를 파일에 저장.
         int result = dao.create(c);
@@ -143,6 +144,15 @@ public class ContactMain05 implements ContactInsertListener {
             addContactToTableModel(c);
             JOptionPane.showMessageDialog(frame, c.getName() + " 추가됐습니다."); // 성공 팝업
         }
+    }
+
+    @Override // ContactUpdateListener 인터페이스를 구현
+    public void contactUpdateNotify() {
+        // 테이블 모델 초기화
+        model = new DefaultTableModel(null, COLUMN_NAMES);
+        table.setModel(model);
+        // 연락처 데이터 새로 로딩
+        loadContactDataFromFile();
     }
 
 }
