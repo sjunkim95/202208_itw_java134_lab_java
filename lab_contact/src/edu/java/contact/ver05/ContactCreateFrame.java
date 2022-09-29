@@ -25,9 +25,9 @@ public class ContactCreateFrame extends JFrame {
     }
 
     private ContactInsertListener listener;
+    private Component parent;
     
     private JPanel contentPane;
-    private Component parent;
     private JTextField textName;
     private JTextField textPhone;
     private JTextField textEmail;
@@ -57,9 +57,12 @@ public class ContactCreateFrame extends JFrame {
      * Initialize UI components.
      */
     private void initialize() {
-        setTitle("새 연락처 추가");
+        setTitle("새 연락처 추가"); // JFrame의 타이틀 설정.
+        
         // 닫기 버튼을 클릭했을 때의 기본 동작 설정 - 현재 창만 닫기
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        
+        // JFrame이 화면에 보이게 될 좌표와 크기(가로/세로)를 설정.
         int x = parent.getX(); // 부모 컴포넌트의 x 좌표
         int y = parent.getY(); // 부모 컴포넌트의 y 좌표
         setBounds(x, y, 450, 300);
@@ -137,12 +140,13 @@ public class ContactCreateFrame extends JFrame {
         
         // Contact 객체 생성
         Contact contact = new Contact(name, phone, email);
+
+        // 현재 창 닫기
+        dispose();
         
         // 새 연락처가 생성됐음을 (ContactMain에게) 알려줌.
         listener.contactInsertNotify(contact);
         
-        // 현재 창 닫기
-        dispose();
     }
 
 }

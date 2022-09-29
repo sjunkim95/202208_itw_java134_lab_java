@@ -6,6 +6,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import edu.java.contact.ver04.Contact;
+import edu.java.contact.ver04.ContactDaoImpl;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
@@ -14,8 +18,11 @@ import javax.swing.JButton;
 
 public class ContactUpdateFrame extends JFrame {
 
+    private Component parent; // 업데이트 창을 실행시킨 부모 컴포넌트
+    private int index; // 수정할 연락처의 인덱스
+    private ContactDaoImpl dao; // 연락처 검색(read), 업데이트(update), ...
+    
     private JPanel contentPane;
-    private Component parent;
     private JTextField textName;
     private JTextField textPhone;
     private JTextField textEmail;
@@ -23,10 +30,10 @@ public class ContactUpdateFrame extends JFrame {
     /**
      * Launch the application.
      */
-    public static void newContactUpdateFrame(Component parent) {
+    public static void newContactUpdateFrame(Component parent, int index) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ContactUpdateFrame frame = new ContactUpdateFrame(parent);
+                ContactUpdateFrame frame = new ContactUpdateFrame(parent, index);
                 frame.setVisible(true);
             }
         });
@@ -35,9 +42,23 @@ public class ContactUpdateFrame extends JFrame {
     /**
      * Create the frame.
      */
-    public ContactUpdateFrame(Component parent) {
+    public ContactUpdateFrame(Component parent, int index) {
         this.parent = parent; // 부모 컴포넌트를 초기화.
+        this.index = index; // 수정할 연락처의 인덱스를 멤버로 저장.
+        this.dao = ContactDaoImpl.getInstance(); // DAO 싱글턴 객체를 가져옴.
+        
         initialize(); // UI 컴포넌트들을 생성, 초기화.
+        
+        initializeContactInfo(); // 수정하려는 인덱스의 연락처 정보를 JTextField에 채움.
+    }
+    
+    void initializeContactInfo() {
+        Contact contact = dao.read(index); // 수정하려는 연락처 정보
+        
+        // 각 JTextField에 연락처 정보를 씀.
+        textName.setText(contact.getName());
+        textPhone.setText(contact.getPhone());
+        textEmail.setText(contact.getEmail());
     }
     
     /**
