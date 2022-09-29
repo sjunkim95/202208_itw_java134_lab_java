@@ -103,6 +103,12 @@ public class ContactMain05
         buttonPanel.add(btnUpdate);
         
         JButton btnDelete = new JButton("연락처 삭제");
+        btnDelete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                deleteContact();
+            }
+        });
         btnDelete.setFont(new Font("D2Coding", Font.PLAIN, 24));
         buttonPanel.add(btnDelete);
         
@@ -117,6 +123,31 @@ public class ContactMain05
         model = new DefaultTableModel(null, COLUMN_NAMES);
         table.setModel(model);
         scrollPane.setViewportView(table);
+    }
+
+    private void deleteContact() {
+        int row = table.getSelectedRow(); // 테이블에서 선택된 행 인덱스
+        if (row == -1) { // 테이블에서 선택된 행이 없으면
+            JOptionPane.showMessageDialog(frame, 
+                    "삭제할 행을 먼저 선택하세요", // 메시지 
+                    "Warning", // 타이틀 
+                    JOptionPane.WARNING_MESSAGE); // 메시지 타입
+            return;
+        }
+        
+        int confirm = JOptionPane.showConfirmDialog(frame, 
+                "선택한 연락처를 정말 삭제할까요?", // 메시지
+                "삭제 확인", // 타이틀
+                JOptionPane.YES_NO_OPTION); // Yes-No-Cancel 옵션
+        if (confirm == JOptionPane.YES_OPTION) {
+            // DAO의 메서드를 사용해서 연락처를 삭제, 파일에 저장.
+            dao.delete(row);
+            
+            // 테이블 갱신
+            model.removeRow(row);
+            
+            JOptionPane.showMessageDialog(frame, "삭제 완료!");
+        }
     }
 
     private void showUpdateFrame() {
