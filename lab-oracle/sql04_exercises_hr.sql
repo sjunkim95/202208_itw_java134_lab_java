@@ -2,17 +2,33 @@
 -- 직원 이름을 출력할 때는 First/Last Name을 이어서 출력할 수 있도록(|| 연산자 사용)
 
 -- Ex 1. employees 테이블의 구조(컬럼 이름, NULL 여부, 데이터 타입) 확인
-
+desc employees;
 
 -- Ex 2. 성(last_name)이 'J'로 시작하는 직원들의 사번, 이름을 출력
-
+select employee_id, first_name || ' ' || last_name as "emp_name"
+from employees
+where last_name like 'J%';
 
 -- Ex 3. 성(last_name)에 'E' 또는 'e'가 포함된 직원들의 사번, 이름을 출력
--- 오라클 문자열 함수 upper(컬럼), lower(컬럼)
+select employee_id, first_name || ' ' || last_name as "EMP_NAME"
+from employees
+where last_name like '%E%' or last_name like '%e%';
 
+-- 위 문장의 결과와 비교: in을 사용하는 경우.
+select employee_id, first_name || ' ' || last_name as "EMP_NAME"
+from employees
+where last_name in ('%E%', '%e%');
+-- last_name = '%E%' or last_name = '%e%'
+
+-- 오라클 문자열 함수 upper(컬럼), lower(컬럼)
+select employee_id, first_name || ' ' || last_name as "EMP_NAME"
+from employees
+where lower(last_name) like '%e%';
 
 -- Ex 4. 전화번호가 '011'로 시작하는 직원들의 사번, 이름, 전화번호를 출력
-
+select employee_id, first_name || ' ' || last_name as "EMP_NAME", phone_number
+from employees
+where phone_number like '011%';
 
 -- Ex 5. 급여가 3000 이상 5000 이하인 직원들의 사번, 이름, 급여를 검색
 -- 급여의 내림차순 출력
