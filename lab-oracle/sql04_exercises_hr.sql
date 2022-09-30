@@ -32,11 +32,24 @@ where phone_number like '011%';
 
 -- Ex 5. 급여가 3000 이상 5000 이하인 직원들의 사번, 이름, 급여를 검색
 -- 급여의 내림차순 출력
-
+select employee_id, first_name || ' ' || last_name as "EMP_NAME", salary
+from employees
+where salary between 3000 and 5000
+-- where salary >= 3000 and salary <= 5000
+order by salary desc;
 
 -- Ex 6. 수당이 있는(not null) 직원들의 사번, 이름, 급여, 연봉을 검색
 -- commission_pct 컬럼: 수당의 퍼센티지(percentage). 수당이 12개월 급여의 몇 %인 지.
 -- 수당 포함 연봉 = 월급 * 12 + 특별 수당
 --                = 월급 * 12 + (월급 * 12) * percentage
 --                = (월급 * 12) * (1 + percentage)
+select salary, commission_pct, salary * 12 * (1 + commission_pct)
+from employees
+where employee_id = 145;
 
+select employee_id,
+    first_name || ' ' || last_name as "EMP_NAME",
+    salary,
+    salary * 12 * (1 + commission_pct) as "ANNUAL_SALARY"
+from employees
+where commission_pct is not null;
