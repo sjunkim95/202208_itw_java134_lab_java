@@ -53,3 +53,22 @@ select empno, ename from emp order by empno;
 
 -- 직원 테이블에서 사번과 이름을 검색, 이름 오름차순 출력
 select empno, ename from emp order by ename;
+
+-- 직원 테이블(emp)에서 이름(ename)과 직무(job)을 "SMITH는 CLERK입니다." 형식으로 출력.
+select ename || '는 ' || job || '입니다.' as "사원 정보"
+from emp;
+
+-- 직원 테이블(emp)에서 직무(job)을 검색
+select job from emp;
+
+-- 위 결과에서 중복되지 않는 job 값들만 출력
+select distinct job from emp;
+
+select distinct job, deptno
+from emp;
+-- distinct는 select 문장에서 한번만, 모든 컬럼 이름들보다 먼저 사용됨.
+
+-- 직원 테이블에서 중복되지 않는 부서번호, 직무를 검색. 부서번호의 오름차순 출력.
+select distinct deptno, job
+from emp
+order by deptno;
