@@ -89,4 +89,50 @@ where deptno = (
 --   다중행 서브쿼리에서는 한 개의 값과 단순비교(=, !=, >, <, ...)를 할 수 없음!
 --   in, any, all과 같은 키워드를 함께 사용해야 함.
 
+-- 각 부서에서 급여를 가장 많이 받는 직원들의 모든 정보(사번, 이름, 급여, 부서, ...)를 검색.
+select deptno, max(sal)
+from emp
+group by deptno;
 
+select *
+from emp
+where (deptno, sal) in (
+    select deptno, max(sal) from emp group by deptno
+);
+
+-- 각 부서에서 급여가 최소인 직원들의 모든 정보를 검색.
+select *
+from emp
+where (deptno, sal) in (
+    select deptno, min(sal) from emp group by deptno
+)
+order by deptno;
+
+-- 다중행 서브쿼리에서 any와 all:
+--   any: 여러 개들 중에서 적어도 하나
+--   all: 여러 개 모두
+select *
+from emp
+where sal < all (
+    select sal from emp where deptno = 10
+);
+
+-- 위의 all을 사용한 서브쿼리와 같은 결과를 주는 쿼리:
+select *
+from emp
+where sal < ( 
+    select min(sal) from emp where deptno = 10 
+);
+
+select *
+from emp
+where sal < any (
+    select sal from emp where deptno = 10
+);
+
+-- any를 사용하는 위의 결과와 같은 결과를 주는 쿼리:
+select *
+from emp
+where sal < (
+    select max(sal) from emp where deptno = 10
+);
