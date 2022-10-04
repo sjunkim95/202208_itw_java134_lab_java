@@ -104,3 +104,5 @@ from emp e1
 select e1.empno, e1.ename as "직원 이름", e1.mgr, e2.ename as "매니저 이름"
 from emp e1, emp e2
 where e1.mgr = e2.empno;
+
+-- 위의 inner join 결과와 left/right/full outer join의 결과를 비교.
