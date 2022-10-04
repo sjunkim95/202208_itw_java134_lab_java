@@ -106,14 +106,36 @@ order by deptno;
 
 -- Ex. emp 테이블에서 mgr가 null이 아닌 직원들 중에서
 -- 부서별 급여 평균을 검색. 부서 번호 오름차순 출력.
+select deptno, avg(sal)
+from emp
+where mgr is not null
+group by deptno
+order by deptno;
 
 -- Ex. 직책별 사원수를 검색.
 -- 직책이 PRESIDENT는 제외.
 -- 직책별 사원수가 3명 이상인 경우만 선택.
 -- 직책 오름차순 출력.
+select job, count(job) as "COUNT"
+from emp 
+where job != 'PRESIDENT'
+group by job
+having count(job) >= 3  -- select에서 설정한 별명을 having에서 사용할 수 없음!
+order by job;
+
+select job, count(job)
+from emp
+group by job
+having job != 'PRESIDENT' and count(job) >= 3
+order by job;
 
 -- Ex. 입사연도, 부서 번호, 입사연도별 부서별 입사한 사원수 검색.
 -- 1980년 제외.
 -- 연도별 부서별 사원수가 2명 이상인 경우 선택.
 -- 연도 오름차순 출력.
-
+select to_char(hiredate, 'YYYY') as "YEAR", deptno, count(*) as "COUNT"
+from emp
+where to_char(hiredate, 'YYYY') != '1980'
+group by to_char(hiredate, 'YYYY'), deptno
+having count(*) >= 2
+order by YEAR;
