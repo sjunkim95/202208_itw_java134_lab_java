@@ -15,11 +15,35 @@ where sal > (
 );
 
 -- Ex. ALLEN보다 적은 급여를 받는 직원들의 사번, 이름, 급여를 검색
+select empno, ename, sal
+from emp
+where sal < (
+    select sal from emp where ename = 'ALLEN'
+);
 
--- Ex. ALLEN과 같은 직책의 직원들의 사번, 이름, 부서번호, 직책, 급여를 검색
+-- Ex. ALLEN과 같은 직무의 직원들의 사번, 이름, 부서번호, 직무, 급여를 검색
+select empno, ename, deptno, job, sal
+from emp
+where job = (
+    select job from emp where ename = 'ALLEN'
+);
 
--- Ex. SALESMAN의 급여 최댓값보다 더 많은 급여를 받는 직원들의 사번, 이름, 급여, 직책을 검색
+-- Ex. SALESMAN의 급여 최댓값보다 더 많은 급여를 받는 직원들의 사번, 이름, 급여, 직무를 검색
+select empno, ename, sal, job
+from emp
+where sal > (
+    select max(sal) from emp where job = 'SALESMAN'
+);
 
 -- Ex. 연봉 = sal * 12 + comm. 만약 comm이 null이면 0으로 계산.
 -- WARD의 연봉보다 더 많은 연봉을 받는 직원들의 사번, 이름, 급여, 수당, 연봉을 검색.
 -- 연봉 내림차순으로 출력.
+select empno, ename, sal, comm, 
+    sal * 12 + nvl(comm, 0) as "ANNUAL_SAL"  -- nvl2(comm, comm, 0)
+from emp
+where sal * 12 + nvl(comm, 0) > (
+    select sal * 12 + nvl(comm, 0) 
+    from emp
+    where ename = 'WARD'
+)
+order by ANNUAL_SAL desc;
