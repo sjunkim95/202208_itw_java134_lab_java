@@ -36,14 +36,83 @@ desc students; -- 생성된 테이블의 구조(컬럼, Null 가능 여부, 데�
 
 select * from students;
 
+/*
+ * 테이블에 새로운 레코드(행 row)를 추가:
+ * insert into 테이블 (컬럼, ...) values (값, ...);
+ *
+ * 테이블의 모든 컬럼에, 테이블 컬럼 순서대로 데이터를 추가하는 경우에는 컬럼 이름들을 생략할 수 있음.
+ * insert into 테이블 values (값, ...);
+ */
 
+insert into students (sid, sname)
+values (1001, '김가영');
 
+select * from students;
 
+insert into students
+values (1002, '김다훈', '2001/10/05');
 
+insert into students values (1003, '오쌤');
+--> 에러 발생: 테이블의 컬럼 개수보다 적은 개수의 값을 전달했기 때문에.
 
+insert into students values ('오쌤', 1003, '2022/10/05');
+--> 에러 발생: values (sid, sname, birthday) 순서인데, sid 위치에 숫자 타입이 아닌 문자열을 전달했기 때문에.
 
+insert into students (sname, sid, birthday)
+values ('김상준', 1003, '2022/10/05');
 
+-- DML(insert, update, delete)에서 변경 내용은 메모리에서만 변경됨.
+-- commit: 데이터 변경 내용을 DB에 영구적으로 저장.
+commit;
 
+-- DDL(create, alter, truncate, drop)은 문장 실행이 성공하면 자동 commit됨.
 
+-- students 테이블과 똑같은 구조의 테이블 students2를 생성.
+-- create-as select 문장: 다른 테이블에서 select한 내용 그대로 새로운 테이블을 생성.
+create table students2 
+as select * from students; -- 테이블 복사
 
+select * from students2;
 
+-- create-as select 문장을 사용해서, 데이터 복사 없이 새 테이블 생성만 하는 경우:
+create table students3
+as select * from students where sid = -1;
+
+select * from students3;
+
+-- 테이블을 생성할 때, 컬럼의 기본값을 설정하기:
+create table tbl_users (
+    user_no         number(6),
+    userid          varchar2(20), -- 20 바이트까지 저장할 수 있는 문자열
+    password        varchar2(20),
+    age             number(3) default 0, -- 기본값=0
+    modified_date   date default sysdate -- 기본값=현재시간
+);
+
+desc tbl_users;
+
+select * from tbl_users;
+
+insert into tbl_users (user_no, userid, password)
+values (1, 'admin', '1234');
+-- insert 문장에서 값을 삽입하지 않은 컬럼들 중에서 default가 설정되어 있는 경우에는
+-- 그 기본값이 자동으로 삽입됨.
+
+insert into tbl_users (user_no, userid)
+values (2, 'guest');
+
+-- 변경 내용 저장
+commit;
+
+-- 테이블 삭제:
+-- truncate table: 테이블의 모든 레코드(행)이 삭제되고, 테이블 이름만 남아 있는 경우.
+-- drop table: 테이블 자체가 삭제됨.
+-- DML 중 delete from 테이블이름: 테이블의 레코드들을 삭제.
+
+select * from tbl_users;
+
+delete from tbl_users where user_no = 1; -- DML
+
+truncate table tbl_users; -- DDL
+
+drop table tbl_users; -- DDL
