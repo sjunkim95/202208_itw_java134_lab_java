@@ -35,3 +35,14 @@ alter table students1 drop constraint students1_stu_id_pk;
 
 -- 비교: 테이블 자체를 삭제 -> drop table
 drop table students3;
+
+-- 수정(modify): 컬럼의 정의(데이터 타입, null 가능 -> not null)를 수정.
+-- 제약 조건의 정의를 수정하는 modify 구문은 제공되지 않음!
+-- 제약 조건 수정: drop constraint -> add constraint
+
+-- students1.department 컬럼의 데이터 타입을 varchar2(10 char)로 수정.
+alter table students1 modify department varchar2(10 char);
+desc students1;
+
+alter table students1
+add constraints stu1_nn check (birthday is not null);
