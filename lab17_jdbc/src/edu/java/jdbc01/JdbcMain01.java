@@ -26,8 +26,8 @@ import static edu.java.ojdbc.model.Blog.Entity.*;
  * 4. 오라클 데이터베이스 시스템에 접속(connection).
  * 5. Statement 객체 생성 - 데이터베이스 서버에서 실행할 SQL 문장 작성, 실행할 수 있는 객체.
  * 6. Statement 객체의 메서드를 사용해서 SQL 문장을 데이터베이스 서버로 전송하고, 그 결과를 받음.
- *    (1) executeQuery() - select
- *    (2) executeUpdate() - insert, update, delete
+ *    (1) executeQuery() - DQL(select)
+ *    (2) executeUpdate() - DML(insert, update, delete)
  * 7. 결과 처리 - 화면 출력.
  * 8. 사용했었던 모든 리소스 해제(close).
  * 
