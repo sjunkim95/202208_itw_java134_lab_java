@@ -7,6 +7,19 @@ import edu.java.ojdbc.model.Blog;
 import static edu.java.ojdbc.model.Blog.Entity.*;
 
 public class BlogDaoImpl implements BlogDao {
+    
+    // Singleton 적용
+    private static BlogDaoImpl instance = null;
+    
+    private BlogDaoImpl() {}
+    
+    public static BlogDaoImpl getInstance() {
+        if (instance == null) {
+            instance = new BlogDaoImpl();
+        }
+        
+        return instance;
+    }
 
     @Override
     public List<Blog> select() {
