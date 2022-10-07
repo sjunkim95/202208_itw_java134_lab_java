@@ -47,7 +47,7 @@ public class JdbcMain02 {
             // PreparedStatement 객체에 입력받은 값들을 설정:
             stmt.setString(1, title); // stmt에서 첫번째 ?를 변수 title 값으로 대체.
             stmt.setString(2, content); // stmt에서 두번째 ?를 변수 content 값으로 대체.
-            stmt.setString(3, author); // stmt에서 세번째 ?fmf 변수 author 값으로 대체.
+            stmt.setString(3, author); // stmt에서 세번째 ?를 변수 author 값으로 대체.
             
             // SQL 문장 실행
             int result = stmt.executeUpdate();
