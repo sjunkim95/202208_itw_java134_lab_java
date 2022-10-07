@@ -5,7 +5,9 @@ import java.sql.DriverManager; // SQL 드라이버(라이브러리) 관리자.
 import java.sql.PreparedStatement; // SQL 문장을 작성, DB에 전송, 결과를 받는 객체.
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 
+import edu.java.ojdbc.model.Blog;
 import oracle.jdbc.OracleDriver; // ojdbc8.jar 라이브러리에 포함된 클래스.
 
 import static edu.java.ojdbc.OracleJdbc.*; // static으로 선언된 변수/메서드 이름을 import.
@@ -60,10 +62,23 @@ public class JdbcMain01 {
             rs = stmt.executeQuery();
             System.out.println(rs);
             
+            // 7. SQL 실행 결과를 화면에 출력.
+            while (rs.next()) { // ResultSet에 행(row)이 있는 경우
+                Integer blogNo = rs.getInt(COL_BLOG_NO); // BLOG_NO 컬럼의 값(number)을 읽음.
+                String title = rs.getString(COL_TITLE);
+                String content = rs.getString(COL_CONTENT);
+                String author = rs.getString(COL_AUTHOR);
+                LocalDateTime createdDate = rs.getTimestamp(COL_CREATED_DATE).toLocalDateTime();
+                LocalDateTime modifiedDate = rs.getTimestamp(COL_MODIFIED_DATE).toLocalDateTime();
+                
+                Blog blog = new Blog(blogNo, title, content, author, createdDate, modifiedDate);
+                System.out.println(blog);
+            }
+            
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            // 사용했었던 리소스들을 해제(close)
+            // 8. 사용했었던 리소스들을 해제(close)
             // 객체들이 생성된 반대 순서로 close. 나중에 생성된 객체부터 먼저 close.
             try {
                 rs.close(); // ResultSet 해제.
