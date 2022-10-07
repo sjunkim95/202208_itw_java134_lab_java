@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,23 @@ public class BlogDaoImpl implements BlogDao {
         return instance;
     }
 
+    private Connection getConnection() throws SQLException {
+        DriverManager.registerDriver(new OracleDriver());
+
+        return DriverManager.getConnection(URL, USER, PASSWORD);
+    }
+
+    private void closeResources(Connection conn, Statement stmt) throws SQLException {
+        stmt.close();
+        conn.close();
+    }
+
+    private void closeResources(Connection conn, Statement stmt, ResultSet rs) 
+            throws SQLException {
+        rs.close();
+        closeResources(conn, stmt);
+    }
+    
     @Override
     public List<Blog> select() {
         List<Blog> list = new ArrayList<>();
@@ -39,9 +57,7 @@ public class BlogDaoImpl implements BlogDao {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         try {
-            DriverManager.registerDriver(new OracleDriver());
-            
-            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            conn = getConnection();
             
             stmt = conn.prepareStatement(SQL_SELECT_ALL);
             
@@ -62,9 +78,7 @@ public class BlogDaoImpl implements BlogDao {
             e.printStackTrace();
         } finally {
             try {
-                rs.close();
-                stmt.close();
-                conn.close();
+                closeResources(conn, stmt, rs);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
