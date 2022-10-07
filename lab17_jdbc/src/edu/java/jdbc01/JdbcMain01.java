@@ -2,11 +2,14 @@ package edu.java.jdbc01;
 
 import java.sql.Connection; // 데이터베이스와 연결(접속)을 관리하는 인터페이스.
 import java.sql.DriverManager; // SQL 드라이버(라이브러리) 관리자.
+import java.sql.PreparedStatement; // SQL 문장을 작성, DB에 전송, 결과를 받는 객체.
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import oracle.jdbc.OracleDriver; // ojdbc8.jar 라이브러리에 포함된 클래스.
 
 import static edu.java.ojdbc.OracleJdbc.*; // static으로 선언된 변수/메서드 이름을 import.
+import static edu.java.ojdbc.model.Blog.Entity.*;
 
 /*
  * JDBC(Java Database Connectivity):
@@ -19,6 +22,12 @@ import static edu.java.ojdbc.OracleJdbc.*; // static으로 선언된 변수/메�
  * 2. 오라클 데이터베이스 시스템에 접속하기 위한 정보들(URL, USER, PASSWORD, ...)을 상수로 정의.
  * 3. 프로그램에서 오라클 JDBC 라이브러리를 사용할 수 있도록 메모리에 로드.
  * 4. 오라클 데이터베이스 시스템에 접속(connection).
+ * 5. Statement 객체 생성 - 데이터베이스 서버에서 실행할 SQL 문장 작성, 실행할 수 있는 객체.
+ * 6. Statement 객체의 메서드를 사용해서 SQL 문장을 데이터베이스 서버로 전송하고, 그 결과를 받음.
+ *    (1) executeQuery() - select
+ *    (2) executeUpdate() - insert, update, delete
+ * 7. 결과 처리 - 화면 출력.
+ * 8. 사용했었던 모든 리소스 해제(close).
  * 
  */
 
@@ -26,7 +35,9 @@ public class JdbcMain01 {
 
     public static void main(String[] args) {
         
-        Connection conn = null;
+        Connection conn = null; // finally 구문에서 close를 해야 할 리소스 객체.
+        PreparedStatement stmt = null; // finally 구문에서 close를 해야 할 리소스 객체.
+        ResultSet rs = null; // finally 구문에서 close를 해야 할 리소스 객체.
         try {
             // 3. Oracle JDBC 라이브러리 로드.
             DriverManager.registerDriver(new OracleDriver());
@@ -36,11 +47,27 @@ public class JdbcMain01 {
             conn = DriverManager.getConnection(URL, USER, PASSWORD);
             System.out.println("Oracle DB 접속 성공!");
             
+            // 5. 전체 검색(select)할 수 있는 SQL 문장과 Statement 객체를 생성
+            // JDBC에서는 SQL 문장 끝에 세미콜론(;)을 사용하지 않음!
+            String sql = String.format(
+                    "select * from %s order by %s desc", 
+                    TBL_BLOGS, COL_BLOG_NO);
+            System.out.println(sql);
+            
+            stmt = conn.prepareStatement(sql);
+            
+            // 6. SQL 문장을 DB 서버로 전송, 결과 받음.
+            rs = stmt.executeQuery();
+            System.out.println(rs);
+            
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             // 사용했었던 리소스들을 해제(close)
+            // 객체들이 생성된 반대 순서로 close. 나중에 생성된 객체부터 먼저 close.
             try {
+                rs.close(); // ResultSet 해제.
+                stmt.close(); // PreparedStatement 해제.
                 conn.close(); // 오라클 DB와 연결 끊기.
                 System.out.println("Oracle DB 연결 해제 성공!");
             } catch (SQLException e) {
