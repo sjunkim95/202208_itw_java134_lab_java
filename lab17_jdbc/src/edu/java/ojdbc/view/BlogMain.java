@@ -105,6 +105,12 @@ public class BlogMain implements OnBlogInsertListener {
         buttonPanel.add(btnRead);
         
         JButton btnDelete = new JButton("삭제");
+        btnDelete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                deleteBlog();
+            }
+        });
         btnDelete.setFont(new Font("D2Coding", Font.PLAIN, 24));
         buttonPanel.add(btnDelete);
         
@@ -113,6 +119,41 @@ public class BlogMain implements OnBlogInsertListener {
         
         table = new JTable();
         scrollPane.setViewportView(table);
+    }
+    
+    private void deleteBlog() {
+        int row = table.getSelectedRow(); // 테이블에서 선택된 행 인덱스
+        if (row == -1) { // JTable에서 선택된 행이 없는 경우,
+            JOptionPane.showMessageDialog(frame, // parentComponenet
+                    "삭제하려는 행을 먼저 선택하세요.", // message
+                    "Error", // title
+                    JOptionPane.ERROR_MESSAGE); // messageType
+            return; // 메서드 종료.
+        }
+        
+        // 선택된 행에서 인덱스 0번 컬럼의 값(BLOG_NO)을 읽음.
+        Integer blogNo = (Integer) model.getValueAt(row, 0);
+        System.out.println("blogNo = " + blogNo);
+        
+        int confirm = JOptionPane.showConfirmDialog(frame, // parentComponent
+                blogNo + "번 블로그 글을 정말 삭제할까요?", // message
+                "삭제 확인", // title
+                JOptionPane.YES_NO_OPTION); // 확인 버튼 종류
+        
+        if (confirm == JOptionPane.YES_OPTION) {
+            // Dao 객체의 delete 메서드를 사용해서 DB에서 삭제.
+            int result = dao.delete(blogNo);
+            if (result == 1) {
+                JOptionPane.showMessageDialog(frame, blogNo + "번 블로그 글 삭제 성공");
+                initializeTable(); // 테이블 갱신
+            } else {
+                JOptionPane.showMessageDialog(frame, 
+                        "블로그 글 삭제 실패", 
+                        "Error", 
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        
     }
 
     @Override // BlogCreateFrame.OnBlogInsertListener 인터페이스의 메서드 구현.

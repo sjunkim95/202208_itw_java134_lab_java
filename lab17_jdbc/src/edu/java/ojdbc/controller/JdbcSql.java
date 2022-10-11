@@ -21,7 +21,7 @@ public interface JdbcSql {
     
     // 블로그 글 업데이트(수정).
     String SQL_UPDATE = String.format(
-            "update %s set %s = ?, %s = ?, %s = sysdate where %s = ?", 
+            "update %s set %s = ? , %s = ?, %s = sysdate where %s = ?", 
             TBL_BLOGS, COL_TITLE, COL_CONTENT, COL_MODIFIED_DATE, COL_BLOG_NO);
     
     // 블로그 글 삭제.

@@ -92,8 +92,41 @@ public class BlogDaoImpl implements BlogDao {
 
     @Override
     public Blog select(Integer blogNo) {
-        // TODO Auto-generated method stub
-        return null;
+        Blog blog = null; // (DB에서 검색한) 리턴할 Blog 타입 객체.
+        
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            conn = getConnection();
+            
+            System.out.println(SQL_SELECT_BY_NO);
+            stmt = conn.prepareStatement(SQL_SELECT_BY_NO);
+            stmt.setInt(1, blogNo);
+            
+            rs = stmt.executeQuery();
+            if (rs.next()) { // 검색 결과에서 row 데이터가 있으면
+                Integer no = rs.getInt(COL_BLOG_NO);
+                String title = rs.getString(COL_TITLE);
+                String content = rs.getString(COL_CONTENT);
+                String author = rs.getString(COL_AUTHOR);
+                LocalDateTime created = rs.getTimestamp(COL_CREATED_DATE).toLocalDateTime();
+                LocalDateTime modified = rs.getTimestamp(COL_MODIFIED_DATE).toLocalDateTime();
+                
+                blog = new Blog(blogNo, title, content, author, created, modified);
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                closeResources(conn, stmt, rs);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        
+        return blog;
     }
 
     @Override
@@ -128,14 +161,54 @@ public class BlogDaoImpl implements BlogDao {
 
     @Override
     public int update(Blog blog) {
-        // TODO Auto-generated method stub
-        return 0;
+        int result = 0;
+        
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        try {
+            conn = getConnection();
+            
+            System.out.println(SQL_UPDATE);
+            stmt = conn.prepareStatement(SQL_UPDATE);
+            stmt.setString(1, blog.getTitle());
+            stmt.setString(2, blog.getContent());
+            stmt.setInt(3, blog.getBlogNo());
+            
+            result = stmt.executeUpdate();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return result;
     }
 
     @Override
     public int delete(Integer blogNo) {
-        // TODO Auto-generated method stub
-        return 0;
+        int result = 0;
+        
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        try {
+            conn = getConnection();
+            
+            System.out.println(SQL_DELETE);
+            stmt = conn.prepareStatement(SQL_DELETE);
+            stmt.setInt(1, blogNo);
+            
+            result = stmt.executeUpdate();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                closeResources(conn, stmt);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        
+        return result;
     }
 
 }
