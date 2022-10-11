@@ -101,6 +101,12 @@ public class BlogMain implements OnBlogInsertListener {
         buttonPanel.add(btnCreate);
         
         JButton btnRead = new JButton("상세보기");
+        btnRead.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showDetailFrame();
+            }
+        });
         btnRead.setFont(new Font("D2Coding", Font.PLAIN, 24));
         buttonPanel.add(btnRead);
         
@@ -119,6 +125,22 @@ public class BlogMain implements OnBlogInsertListener {
         
         table = new JTable();
         scrollPane.setViewportView(table);
+    }
+    
+    private void showDetailFrame() {
+        int row = table.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(frame, // parentComponent
+                    "테이블의 행을 먼저 선택하세요.", // message
+                    "Error", // title
+                    JOptionPane.ERROR_MESSAGE); //messageType
+            return;
+        }
+        
+        Integer blogNo = (Integer) model.getValueAt(row, 0);
+        System.out.println("blogNo = " + blogNo);
+        
+        BlogDetailFrame.newBlogDetailFrame(frame, blogNo);
     }
     
     private void deleteBlog() {
