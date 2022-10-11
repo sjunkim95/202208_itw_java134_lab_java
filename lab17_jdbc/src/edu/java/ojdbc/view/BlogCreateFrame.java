@@ -2,27 +2,30 @@ package edu.java.ojdbc.view;
 
 import java.awt.Component;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import edu.java.ojdbc.controller.BlogDaoImpl;
 import edu.java.ojdbc.model.Blog;
 
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import java.awt.Font;
-import javax.swing.JTextField;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
 public class BlogCreateFrame extends JFrame {
+    
+    public interface OnBlogInsertListener {
+        void onBlogInserted();
+    }
 
+    private OnBlogInsertListener listener;
     private Component parent; // 부모 컴포넌트를 저장하기 위한 필드.
     private BlogDaoImpl dao; // DB 테이블 insert 기능을 가지고 있는 객체.
     
@@ -34,11 +37,11 @@ public class BlogCreateFrame extends JFrame {
     /**
      * Launch the application.
      */
-    public static void newBlogCreateFrame(Component parent) {
+    public static void newBlogCreateFrame(Component parent, OnBlogInsertListener listener) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    BlogCreateFrame frame = new BlogCreateFrame(parent);
+                    BlogCreateFrame frame = new BlogCreateFrame(parent, listener);
                     frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -50,7 +53,8 @@ public class BlogCreateFrame extends JFrame {
     /**
      * Create the frame.
      */
-    public BlogCreateFrame(Component parent) {
+    public BlogCreateFrame(Component parent, OnBlogInsertListener listener) {
+        this.listener = listener;
         this.parent = parent;
         this.dao = BlogDaoImpl.getInstance();
         
@@ -93,6 +97,7 @@ public class BlogCreateFrame extends JFrame {
         contentPane.add(scrollPane);
         
         textContent = new JTextArea();
+        textContent.setFont(new Font("D2Coding", Font.PLAIN, 24));
         scrollPane.setViewportView(textContent);
         
         JLabel lblAuthor = new JLabel("작성자");
@@ -139,7 +144,9 @@ public class BlogCreateFrame extends JFrame {
         int result = dao.insert(blog);
         if (result == 1) { // insert 성공
             JOptionPane.showMessageDialog(this, "새 블로그 글 작성 성공");
-            // TODO: 테이블 갱신
+            dispose(); // 현재 창 닫기
+            
+            listener.onBlogInserted();
             
         } else { // insert 실패
             JOptionPane.showMessageDialog(this, 

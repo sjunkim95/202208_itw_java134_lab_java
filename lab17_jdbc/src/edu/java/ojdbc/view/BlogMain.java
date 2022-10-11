@@ -16,12 +16,13 @@ import javax.swing.table.DefaultTableModel;
 
 import edu.java.ojdbc.controller.BlogDaoImpl;
 import edu.java.ojdbc.model.Blog;
+import edu.java.ojdbc.view.BlogCreateFrame.OnBlogInsertListener;
 
 import static edu.java.ojdbc.model.Blog.Entity.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class BlogMain {
+public class BlogMain implements OnBlogInsertListener {
     // 메인 화면에서 보여줄 JTable의 컬럼 이름들
     private static final String[] COLUMN_NAMES = {
             COL_BLOG_NO, COL_TITLE, COL_AUTHOR, COL_MODIFIED_DATE
@@ -83,6 +84,8 @@ public class BlogMain {
         frame.setBounds(100, 100, 800, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
+        frame.setTitle("블로그 메인");
+        
         JPanel buttonPanel = new JPanel();
         frame.getContentPane().add(buttonPanel, BorderLayout.NORTH);
         
@@ -91,7 +94,7 @@ public class BlogMain {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // 새 블로그 글 작성 Frame 만들기.
-                BlogCreateFrame.newBlogCreateFrame(frame);
+                BlogCreateFrame.newBlogCreateFrame(frame, BlogMain.this);
             }
         });
         btnCreate.setFont(new Font("D2Coding", Font.PLAIN, 24));
@@ -112,4 +115,9 @@ public class BlogMain {
         scrollPane.setViewportView(table);
     }
 
+    @Override // BlogCreateFrame.OnBlogInsertListener 인터페이스의 메서드 구현.
+    public void onBlogInserted() {
+        initializeTable();
+    }
+    
 }
