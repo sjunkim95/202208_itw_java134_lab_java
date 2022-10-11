@@ -22,7 +22,7 @@ public class BlogMain {
     // 메인 화면에서 보여줄 JTable의 컬럼 이름들
     private static final String[] COLUMN_NAMES = {
             COL_BLOG_NO, COL_TITLE, COL_AUTHOR, COL_MODIFIED_DATE
-    }; 
+    };
     
     private JFrame frame;
     private JTable table;
@@ -57,12 +57,18 @@ public class BlogMain {
     }
 
     private void initializeTable() {
+        // 데이터는 없는, 컬럼 이름들만 설정된 테이블 모델 객체를 생성. -> 데이터 초기화.
+        model = new DefaultTableModel(null, COLUMN_NAMES);
+        // 테이블에 모들 객체를 설정.
+        table.setModel(model);
+
+        // DB에서 데이터를 검색. 
         List<Blog> list = dao.select();
         for (Blog b : list) {
             Object[] row = {
                     b.getBlogNo(), b.getTitle(), b.getAuthor(), b.getModifiedDate()
             };
-            model.addRow(row);
+            model.addRow(row); // 테이블 모델에 행(row) 데이터로 추가.
         }
     }
 
@@ -93,8 +99,6 @@ public class BlogMain {
         frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
         
         table = new JTable();
-        model = new DefaultTableModel(null, COLUMN_NAMES);
-        table.setModel(model);
         scrollPane.setViewportView(table);
     }
 

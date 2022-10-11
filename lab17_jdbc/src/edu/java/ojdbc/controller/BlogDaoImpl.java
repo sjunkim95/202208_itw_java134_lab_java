@@ -51,18 +51,20 @@ public class BlogDaoImpl implements BlogDao {
     
     @Override
     public List<Blog> select() {
-        List<Blog> list = new ArrayList<>();
+        List<Blog> list = new ArrayList<>(); // 리턴하기 위한 ArrayList - select의 결과를 저장.
         
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         try {
-            conn = getConnection();
+            conn = getConnection(); // Oracle DB와 연결(접속)
             
-            stmt = conn.prepareStatement(SQL_SELECT_ALL);
+            System.out.println(SQL_SELECT_ALL);
+            stmt = conn.prepareStatement(SQL_SELECT_ALL); // SQL 문장 준비
             
-            rs = stmt.executeQuery();
-            while (rs.next()) {
+            rs = stmt.executeQuery(); // SQL 문장 실행
+            while (rs.next()) { // ResultSet에 row 데이터가 있으면
+                // row에서 각 column에 있는 값들을 분석.
                 Integer blogNo = rs.getInt(COL_BLOG_NO);
                 String title = rs.getString(COL_TITLE);
                 String content = rs.getString(COL_CONTENT);
@@ -70,8 +72,9 @@ public class BlogDaoImpl implements BlogDao {
                 LocalDateTime created = rs.getTimestamp(COL_CREATED_DATE).toLocalDateTime();
                 LocalDateTime modified = rs.getTimestamp(COL_MODIFIED_DATE).toLocalDateTime();
                 
+                // Blog 타입 객체 생성.
                 Blog blog = new Blog(blogNo, title, content, author, created, modified);
-                list.add(blog);
+                list.add(blog); // 결과 ArrayList에 추가.
             }
             
         } catch (SQLException e) {
