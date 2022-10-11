@@ -61,7 +61,7 @@ public class BlogCreateFrame extends JFrame {
         initialize(); // UI 컴포넌트들(JLabel, JTextField, JTextAreat, ...)이 생성, 초기화.
     }
     
-    public void initialize() {
+    private void initialize() {
         setTitle("새 블로그 글 작성"); // JFrame의 타이틀
         
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // JFrame의 닫기 버튼 동작 - 현재 창 닫기

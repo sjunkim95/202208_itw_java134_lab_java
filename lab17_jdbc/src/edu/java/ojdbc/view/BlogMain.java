@@ -17,12 +17,13 @@ import javax.swing.table.DefaultTableModel;
 import edu.java.ojdbc.controller.BlogDaoImpl;
 import edu.java.ojdbc.model.Blog;
 import edu.java.ojdbc.view.BlogCreateFrame.OnBlogInsertListener;
+import edu.java.ojdbc.view.BlogDetailFrame.OnBlogUpdateListener;
 
 import static edu.java.ojdbc.model.Blog.Entity.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class BlogMain implements OnBlogInsertListener {
+public class BlogMain implements OnBlogInsertListener, OnBlogUpdateListener {
     // 메인 화면에서 보여줄 JTable의 컬럼 이름들
     private static final String[] COLUMN_NAMES = {
             COL_BLOG_NO, COL_TITLE, COL_AUTHOR, COL_MODIFIED_DATE
@@ -140,7 +141,7 @@ public class BlogMain implements OnBlogInsertListener {
         Integer blogNo = (Integer) model.getValueAt(row, 0);
         System.out.println("blogNo = " + blogNo);
         
-        BlogDetailFrame.newBlogDetailFrame(frame, blogNo);
+        BlogDetailFrame.newBlogDetailFrame(frame, blogNo, BlogMain.this); // BlogMain.this = this
     }
     
     private void deleteBlog() {
@@ -180,6 +181,11 @@ public class BlogMain implements OnBlogInsertListener {
 
     @Override // BlogCreateFrame.OnBlogInsertListener 인터페이스의 메서드 구현.
     public void onBlogInserted() {
+        initializeTable();
+    }
+    
+    @Override // BlogDetailFrame.OnBlogUpdateListener 인터페이스 메서드 구현
+    public void onBlogUpdated() {
         initializeTable();
     }
     

@@ -6,21 +6,37 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import edu.java.ojdbc.controller.BlogDaoImpl;
+import edu.java.ojdbc.model.Blog;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class BlogDetailFrame extends JFrame {
     
+    public interface OnBlogUpdateListener {
+        void onBlogUpdated();
+    }
+    
+    private OnBlogUpdateListener listener;
+    
     private Component parent;
     private Integer blogNo;
+    private BlogDaoImpl dao;
 
     private JPanel contentPane;
     private JTextField textBlogNo;
     private JTextField textTitle;
+    private JTextArea textContent;
     private JTextField textAuthor;
     private JTextField textCreatedDate;
     private JTextField textModifiedDate;
@@ -28,11 +44,11 @@ public class BlogDetailFrame extends JFrame {
     /**
      * Launch the application.
      */
-    public static void newBlogDetailFrame(Component parent, Integer blogNo) {
+    public static void newBlogDetailFrame(Component parent, Integer blogNo, OnBlogUpdateListener listener) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    BlogDetailFrame frame = new BlogDetailFrame(parent, blogNo);
+                    BlogDetailFrame frame = new BlogDetailFrame(parent, blogNo, listener);
                     frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -44,14 +60,31 @@ public class BlogDetailFrame extends JFrame {
     /**
      * Create the frame.
      */
-    public BlogDetailFrame(Component parent, Integer blogNo) {
+    public BlogDetailFrame(Component parent, Integer blogNo, OnBlogUpdateListener listener) {
+        this.listener = listener; // 블로그 글 업데이트 결과를 통지할 수 있는 메서드를 가지고 있는 객체.
+        
         this.parent = parent; // 부모 컴포넌트 객체 저장.
         this.blogNo = blogNo; // 상세보기/수정할 블로그 글 번호.
+        this.dao = BlogDaoImpl.getInstance();
         
         initialize(); // UI 컴포넌트 생성, 초기화.
+        
+        initializeBlogData(); // JTextField, JTextArea의 내용을 DB에서 검색한 내용으로 채움.
     }
     
-    public void initialize() {
+    private void initializeBlogData() {
+        Blog blog = dao.select(blogNo);
+        if (blog != null) {
+            textBlogNo.setText(blog.getBlogNo().toString());
+            textTitle.setText(blog.getTitle());
+            textContent.setText(blog.getContent());
+            textAuthor.setText(blog.getAuthor());
+            textCreatedDate.setText(blog.getCreatedDate().toString());
+            textModifiedDate.setText(blog.getModifiedDate().toString());
+        }
+    }
+    
+    private void initialize() {
         setTitle("블로그 상세 보기");
         
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -72,7 +105,6 @@ public class BlogDetailFrame extends JFrame {
         contentPane.add(lblBlogNo);
         
         textBlogNo = new JTextField();
-        textBlogNo.setText(blogNo.toString());
         textBlogNo.setEditable(false);
         textBlogNo.setFont(new Font("D2Coding", Font.PLAIN, 24));
         textBlogNo.setBounds(12, 60, 360, 40);
@@ -99,7 +131,7 @@ public class BlogDetailFrame extends JFrame {
         scrollPane.setBounds(12, 260, 360, 120);
         contentPane.add(scrollPane);
         
-        JTextArea textContent = new JTextArea();
+        textContent = new JTextArea();
         textContent.setFont(new Font("D2Coding", Font.PLAIN, 24));
         scrollPane.setViewportView(textContent);
         
@@ -140,9 +172,45 @@ public class BlogDetailFrame extends JFrame {
         contentPane.add(textModifiedDate);
         
         JButton btnUpdate = new JButton("수정 완료");
+        btnUpdate.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                updateBlog();
+            }
+        });
         btnUpdate.setFont(new Font("D2Coding", Font.PLAIN, 24));
         btnUpdate.setBounds(12, 690, 360, 40);
         contentPane.add(btnUpdate);
+    }
+    
+    private void updateBlog() {
+        // 수정할 title, content 읽음.
+        String title = textTitle.getText();
+        String content = textContent.getText();
+        if (title.equals("") || content.equals("")) {
+            JOptionPane.showMessageDialog(this, 
+                    "제목과 내용은 반드시 입력되어야 합니다.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        // dao.update() 호출.
+        Blog blog = new Blog(blogNo, title, content, null, null, null);
+        int result = dao.update(blog);
+        
+        if (result == 1) {
+            JOptionPane.showMessageDialog(this, 
+                    blogNo + "번 블로그 업데이트 성공");
+            // DetailFrame은 닫음.
+            dispose();
+            // BlogMain에게 업데이트 성공을 알려줌.
+            listener.onBlogUpdated();
+        } else {
+            JOptionPane.showMessageDialog(this, 
+                    blogNo + "번 블로그 업데이트 실패");
+        }
+        
     }
 
 }
