@@ -8,8 +8,11 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import edu.java.ojdbc.controller.BlogDaoImpl;
+import edu.java.ojdbc.model.Blog;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
@@ -116,7 +119,35 @@ public class BlogCreateFrame extends JFrame {
     }
     
     private void createNewBlogPost() {
-        // TODO
+        // 제목, 내용, 작성자 정보 읽음.
+        String title = textTitle.getText();
+        String content = textContent.getText();
+        String author = textAuthor.getText();
+        if (title.equals("") || content.equals("") || author.equals("")) {
+            JOptionPane.showMessageDialog(
+                    this, // parentComponent -> BlogCreateFrame의 인스턴스 주소.
+                    "제목, 내용, 작성자는 반드시 입력되어야 합니다!", // message
+                    "Error", // title
+                    JOptionPane.ERROR_MESSAGE);
+            return; // insert하면 안 됨 -> 메서드 종료
+        }
+        
+        // 제목, 내용, 작성자 -> Blog 객체 생성
+        Blog blog = new Blog(null, title, content, author, null, null);
+        
+        // dao의 insert 메서드를 호출 -> DB에 저장
+        int result = dao.insert(blog);
+        if (result == 1) { // insert 성공
+            JOptionPane.showMessageDialog(this, "새 블로그 글 작성 성공");
+            // TODO: 테이블 갱신
+            
+        } else { // insert 실패
+            JOptionPane.showMessageDialog(this, 
+                    "새 블로그 글 작성 실패", 
+                    "Error", 
+                    JOptionPane.ERROR_MESSAGE);
+        }
+        
     }
     
 }

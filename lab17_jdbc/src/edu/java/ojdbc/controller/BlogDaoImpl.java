@@ -98,8 +98,32 @@ public class BlogDaoImpl implements BlogDao {
 
     @Override
     public int insert(Blog blog) {
-        // TODO Auto-generated method stub
-        return 0;
+        int result = 0; // DB insert 결과 값(insert된 행의 개수)를 저장할 변수
+        
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        try {
+            conn = getConnection();
+            
+            System.out.println(SQL_INSERT);
+            stmt = conn.prepareStatement(SQL_INSERT);
+            stmt.setString(1, blog.getTitle());
+            stmt.setString(2, blog.getContent());
+            stmt.setString(3, blog.getAuthor());
+            
+            result = stmt.executeUpdate();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                closeResources(conn, stmt);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        
+        return result;
     }
 
     @Override
