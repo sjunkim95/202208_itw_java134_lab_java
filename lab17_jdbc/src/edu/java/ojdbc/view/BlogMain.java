@@ -17,6 +17,8 @@ import edu.java.ojdbc.controller.BlogDaoImpl;
 import edu.java.ojdbc.model.Blog;
 
 import static edu.java.ojdbc.model.Blog.Entity.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class BlogMain {
     // 메인 화면에서 보여줄 JTable의 컬럼 이름들
@@ -84,6 +86,13 @@ public class BlogMain {
         frame.getContentPane().add(buttonPanel, BorderLayout.NORTH);
         
         JButton btnCreate = new JButton("새 글 작성");
+        btnCreate.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // 새 블로그 글 작성 Frame 만들기.
+                BlogCreateFrame.newBlogCreateFrame(frame);
+            }
+        });
         btnCreate.setFont(new Font("D2Coding", Font.PLAIN, 24));
         buttonPanel.add(btnCreate);
         
