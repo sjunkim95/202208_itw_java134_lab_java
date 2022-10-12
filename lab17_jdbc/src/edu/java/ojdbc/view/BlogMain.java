@@ -20,8 +20,12 @@ import edu.java.ojdbc.view.BlogCreateFrame.OnBlogInsertListener;
 import edu.java.ojdbc.view.BlogDetailFrame.OnBlogUpdateListener;
 
 import static edu.java.ojdbc.model.Blog.Entity.*;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JTextField;
 
 public class BlogMain implements OnBlogInsertListener, OnBlogUpdateListener {
     // 메인 화면에서 보여줄 JTable의 컬럼 이름들
@@ -32,8 +36,10 @@ public class BlogMain implements OnBlogInsertListener, OnBlogUpdateListener {
     private JFrame frame;
     private JTable table;
     private DefaultTableModel model;
+    private JComboBox<String> comboBox;
     
     private BlogDaoImpl dao;
+    private JTextField textKeyword;
     
 
     /**
@@ -98,6 +104,16 @@ public class BlogMain implements OnBlogInsertListener, OnBlogUpdateListener {
                 BlogCreateFrame.newBlogCreateFrame(frame, BlogMain.this);
             }
         });
+        
+        JButton btnReadAll = new JButton("전체 보기");
+        btnReadAll.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                initializeTable();
+            }
+        });
+        btnReadAll.setFont(new Font("D2Coding", Font.PLAIN, 24));
+        buttonPanel.add(btnReadAll);
         btnCreate.setFont(new Font("D2Coding", Font.PLAIN, 24));
         buttonPanel.add(btnCreate);
         
@@ -126,6 +142,45 @@ public class BlogMain implements OnBlogInsertListener, OnBlogUpdateListener {
         
         table = new JTable();
         scrollPane.setViewportView(table);
+        
+        JPanel searchPanel = new JPanel();
+        frame.getContentPane().add(searchPanel, BorderLayout.SOUTH);
+        
+        comboBox = new JComboBox<>();
+        String[] comboBoxItems = {"제목", "내용", "제목 + 내용", "작성자"};
+        DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>(comboBoxItems);
+        comboBox.setModel(comboBoxModel);
+        searchPanel.add(comboBox);
+        
+        textKeyword = new JTextField();
+        textKeyword.setFont(new Font("D2Coding", Font.PLAIN, 20));
+        searchPanel.add(textKeyword);
+        textKeyword.setColumns(10);
+        
+        JButton btnSearch = new JButton("검색");
+        btnSearch.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                searchBlogsByKeyword();
+            }
+        });
+        btnSearch.setFont(new Font("D2Coding", Font.PLAIN, 20));
+        searchPanel.add(btnSearch);
+    }
+    
+    private void searchBlogsByKeyword() {
+        String keyword = textKeyword.getText();
+        if (keyword.equals("")) { // 검색어 JTextField가 비어 있으면
+            JOptionPane.showMessageDialog(frame, // parentComponent
+                    "검색어를 입력하세요.", // message
+                    "Warning", // title 
+                    JOptionPane.WARNING_MESSAGE); // messageType
+            
+            return;
+        }
+        
+        int type = comboBox.getSelectedIndex();
+        
     }
     
     private void showDetailFrame() {
