@@ -150,6 +150,7 @@ public class BlogMain implements OnBlogInsertListener, OnBlogUpdateListener {
         String[] comboBoxItems = {"제목", "내용", "제목 + 내용", "작성자"};
         DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>(comboBoxItems);
         comboBox.setModel(comboBoxModel);
+        comboBox.setSelectedIndex(0);
         searchPanel.add(comboBox);
         
         textKeyword = new JTextField();
@@ -180,6 +181,19 @@ public class BlogMain implements OnBlogInsertListener, OnBlogUpdateListener {
         }
         
         int type = comboBox.getSelectedIndex();
+        System.out.println("type=" + type + ", keyword=" + keyword);
+        
+        // DAO의 검색 타입과 검색어를 arguement로 갖는 검색 메서드 호출.
+        List<Blog> list = dao.select(type, keyword);
+        
+        model = new DefaultTableModel(null, COLUMN_NAMES);
+        table.setModel(model);
+        for (Blog b : list) {
+            Object[] row = {
+                    b.getBlogNo(), b.getTitle(), b.getAuthor(), b.getModifiedDate()
+            };
+            model.addRow(row);
+        }
         
     }
     
