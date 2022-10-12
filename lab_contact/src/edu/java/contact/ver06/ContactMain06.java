@@ -13,12 +13,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import edu.java.contact.ver06.ContactCreateFrame.ContactInsertListener;
 import edu.java.contact.ver06.ContactUpdateFrame.ContactUpdateListener;
-import javax.swing.JTextField;
-
 
 public class ContactMain06 
     implements ContactInsertListener, ContactUpdateListener {
